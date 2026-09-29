@@ -1,0 +1,716 @@
+@import "tailwindcss";
+
+/* ============================================================
+   TwoFFactor — Sistema de diseño (Fair and Fast)
+   Paleta: navy profundo + cian eléctrico + cromo/plata
+   ============================================================ */
+
+@theme {
+  /* Marca */
+  --color-ink: #050a18;
+  --color-ink-2: #0a1226;
+  --color-surface: #0f1b33;
+  --color-surface-2: #14213f;
+
+  --color-cyan: #22d3ee;
+  --color-cyan-bright: #67e8f9;
+  --color-blue: #3b82f6;
+  --color-blue-deep: #1d4ed8;
+
+  --color-chrome: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-muted-dim: #64748b;
+
+  /* Fuentes (Geist provisto por next/font) */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Sombra de resplandor */
+  --shadow-glow: 0 0 40px -8px var(--color-cyan);
+}
+
+:root {
+  color-scheme: dark;
+  --background: var(--color-ink);
+  --foreground: var(--color-chrome);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 70% -10%, rgba(34, 211, 238, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 10% 10%, rgba(59, 130, 246, 0.10), transparent 55%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* contiene las transformaciones 3D sin romper position: sticky */
+}
+
+/* ============================================================
+   Animaciones ligadas al scroll (CSS Scroll-Driven Animations)
+   Corren en el compositor: 60 FPS sin bloquear el hilo principal.
+   ============================================================ */
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes parallax-rise {
+  from { transform: translateY(60px) scale(1.06); }
+  to { transform: translateY(-40px) scale(1); }
+}
+
+/* Aparece a medida que entra en el viewport */
+.reveal {
+  animation: reveal-up linear both;
+  animation-timeline: view();
+  animation-range: entry 5% cover 35%;
+}
+
+.reveal-soft {
+  animation: fade-in linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 25%;
+}
+
+/* Escalonado para grupos de elementos */
+.reveal-stagger > * {
+  animation: reveal-up linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+/* Barra de progreso de scroll del documento */
+.scroll-progress {
+  animation: grow-x linear both;
+  animation-timeline: scroll(root);
+  transform-origin: 0 50%;
+}
+
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Respeta la preferencia del usuario: sin movimiento */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal,
+  .reveal-soft,
+  .reveal-stagger > *,
+  .scroll-progress,
+  [class*="anim-"] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* ============================================================
+   Entrada del Hero (por encima del pliegue): animación al cargar,
+   escalonada. No usa scroll-timeline porque ya es visible.
+   ============================================================ */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[class*="anim-"] {
+  animation: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.anim-eyebrow { animation-delay: 0.05s; }
+.anim-title { animation-delay: 0.15s; }
+.anim-sub { animation-delay: 0.35s; }
+.anim-cta { animation-delay: 0.5s; }
+.anim-stats { animation-delay: 0.65s; }
+.anim-visual { animation-delay: 0.3s; }
+
+/* ============================================================
+   CARDS 3D — entran girando en perspectiva ligadas al scroll.
+   ============================================================ */
+.cards3d {
+  perspective: 1300px;
+}
+.card3d {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+@supports (animation-timeline: view()) {
+  .card3d--left {
+    animation: card-in-left linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
+  }
+  .card3d--right {
+    animation: card-in-right linear both;
+    animation-timeline: view();
+    animation-range: entry 8% cover 58%;
+  }
+}
+
+@keyframes card-in-left {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(62deg) rotateX(24deg)
+      translate3d(-18%, 100px, -640px) scale(0.66);
+    filter: blur(18px);
+  }
+  45% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  80% {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(-7deg) rotateX(-3deg)
+      translate3d(2%, -10px, 30px) scale(1.05);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0) rotateX(0) translate3d(0, 0, 0)
+      scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes card-in-right {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(-62deg) rotateX(24deg)
+      translate3d(18%, 100px, -640px) scale(0.66);
+    filter: blur(18px);
+  }
+  45% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  80% {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(7deg) rotateX(-3deg)
+      translate3d(-2%, -10px, 30px) scale(1.05);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0) rotateX(0) translate3d(0, 0, 0)
+      scale(1);
+    filter: blur(0);
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  .card3d {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card3d {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Utilidades de marca */
+.text-gradient {
+  background: linear-gradient(120deg, var(--color-cyan-bright), var(--color-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ring-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* ============================================================
+   BUCEO CINEMATOGRÁFICO (dive) — secuencia de 4 fotogramas que
+   hacen cross-fade + zoom ligados al scroll. La sección se fija a
+   pantalla completa y la cámara "se sumerge" hasta el núcleo de IA.
+   ============================================================ */
+
+.dive {
+  position: relative;
+}
+.dive__stage {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+.dive__frame {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.dive__frame :is(img) {
+  object-fit: cover;
+}
+.dive__frame--1 {
+  opacity: 1;
+} /* estado base / fallback: primer fotograma visible */
+
+.dive__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(5, 10, 24, 0.9), transparent 42%),
+    linear-gradient(to right, rgba(5, 10, 24, 0.55), transparent 55%);
+}
+.dive__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12vh;
+  opacity: 0;
+}
+.dive__cap--1 {
+  opacity: 1;
+}
+
+@supports (animation-timeline: view()) {
+  .dive {
+    height: 380vh;
+    view-timeline-name: --dive;
+    view-timeline-axis: block;
+  }
+  .dive__stage {
+    position: sticky;
+    top: 0;
+  }
+
+  .dive__frame--1 {
+    animation: dive-first linear both;
+    animation-timeline: --dive;
+    animation-range: contain 0% contain 34%;
+  }
+  .dive__frame--2 {
+    animation: dive-through linear both;
+    animation-timeline: --dive;
+    animation-range: contain 12% contain 60%;
+  }
+  .dive__frame--3 {
+    animation: dive-through linear both;
+    animation-timeline: --dive;
+    animation-range: contain 40% contain 84%;
+  }
+  .dive__frame--4 {
+    animation: dive-last linear both;
+    animation-timeline: --dive;
+    animation-range: contain 64% contain 100%;
+  }
+
+  .dive__cap--1 {
+    animation: cap-first linear both;
+    animation-timeline: --dive;
+    animation-range: contain 0% contain 26%;
+  }
+  .dive__cap--2 {
+    animation: cap-mid linear both;
+    animation-timeline: --dive;
+    animation-range: contain 20% contain 50%;
+  }
+  .dive__cap--3 {
+    animation: cap-mid linear both;
+    animation-timeline: --dive;
+    animation-range: contain 46% contain 74%;
+  }
+  .dive__cap--4 {
+    animation: cap-last linear both;
+    animation-timeline: --dive;
+    animation-range: contain 70% contain 100%;
+  }
+}
+
+@keyframes dive-first {
+  0% {
+    opacity: 1;
+    transform: translateZ(0) scale(1) translate(0, 0);
+    filter: blur(0);
+  }
+  55% {
+    opacity: 1;
+    transform: translateZ(180px) scale(1.28) translate(-1%, -2%);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(650px) scale(2.1) translate(-2%, -5%);
+    filter: blur(18px);
+  }
+}
+@keyframes dive-through {
+  0% {
+    opacity: 0;
+    transform: translateZ(-520px) scale(1.02) translate(1.5%, 2.5%);
+    filter: blur(22px);
+  }
+  28% {
+    opacity: 1;
+    transform: translateZ(-120px) scale(1.12) translate(0.5%, 1%);
+    filter: blur(0);
+  }
+  68% {
+    opacity: 1;
+    transform: translateZ(200px) scale(1.42) translate(-1%, -2%);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(680px) scale(2.15) translate(-2.5%, -5.5%);
+    filter: blur(22px);
+  }
+}
+@keyframes dive-last {
+  0% {
+    opacity: 0;
+    transform: translateZ(-420px) scale(1.05);
+    filter: blur(20px);
+  }
+  42% {
+    opacity: 1;
+    transform: translateZ(-60px) scale(1.16);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(120px) scale(1.34);
+    filter: blur(0);
+  }
+}
+@keyframes cap-first {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  68% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-26px);
+  }
+}
+@keyframes cap-mid {
+  0% {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  74% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-26px);
+  }
+}
+@keyframes cap-last {
+  0% {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  42% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sin soporte scroll-driven: primer fotograma estático como hero */
+@supports not (animation-timeline: view()) {
+  .dive__frame:not(.dive__frame--1) {
+    display: none;
+  }
+}
+
+/* Reduce-motion: hero estático, sin buceo */
+@media (prefers-reduced-motion: reduce) {
+  .dive {
+    height: auto !important;
+  }
+  .dive__stage {
+    position: static !important;
+  }
+  .dive__frame:not(.dive__frame--1) {
+    display: none !important;
+  }
+  .dive__frame--1,
+  .dive__cap--1 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .dive__cap:not(.dive__cap--1) {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   ESCENAS FIJADAS 3D (pinned) — el scroll controla la animación.
+   La sección se "pega" a la pantalla mientras la imagen se
+   transforma en 3D. Corre sobre el compositor (view-timeline).
+   ============================================================ */
+
+.scene {
+  position: relative;
+}
+.scene__stage {
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+  perspective: 1500px;
+}
+.scene__img {
+  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+}
+
+@supports (animation-timeline: view()) {
+  .scene {
+    height: 190vh; /* distancia de scroll durante la que se anima */
+    view-timeline-name: --scene;
+    view-timeline-axis: block;
+  }
+  .scene__stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+  .scene__img {
+    animation: scene-img linear both;
+    animation-timeline: --scene;
+    animation-range: contain 0% contain 100%;
+  }
+  .scene--flip .scene__img {
+    animation-name: scene-img-flip;
+  }
+  .scene__glow {
+    animation: scene-glow linear both;
+    animation-timeline: --scene;
+    animation-range: contain 0% contain 100%;
+  }
+  .scene__eyebrow {
+    animation: scene-text linear both;
+    animation-timeline: --scene;
+    animation-range: contain 6% contain 34%;
+  }
+  .scene__title {
+    animation: scene-text linear both;
+    animation-timeline: --scene;
+    animation-range: contain 12% contain 46%;
+  }
+  .scene__copy {
+    animation: scene-text linear both;
+    animation-timeline: --scene;
+    animation-range: contain 22% contain 58%;
+  }
+}
+
+@keyframes scene-img {
+  from {
+    opacity: 0.15;
+    transform: translate3d(12%, 16%, -560px) rotateX(36deg) rotateY(-46deg) scale(0.58);
+    filter: blur(14px);
+  }
+  40% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(-5%, -12%, 140px) rotateX(-14deg) rotateY(20deg) scale(1.2);
+    filter: blur(0);
+  }
+}
+@keyframes scene-img-flip {
+  from {
+    opacity: 0.15;
+    transform: translate3d(-12%, 16%, -560px) rotateX(36deg) rotateY(46deg) scale(0.58);
+    filter: blur(14px);
+  }
+  40% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(5%, -12%, 140px) rotateX(-14deg) rotateY(-20deg) scale(1.2);
+    filter: blur(0);
+  }
+}
+@keyframes scene-text {
+  from {
+    opacity: 0;
+    transform: translateY(44px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scene-glow {
+  from {
+    opacity: 0.15;
+    transform: scale(0.75);
+  }
+  50% {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0.35;
+    transform: scale(1.35);
+  }
+}
+
+/* Parallax suave de la imagen del Hero al empezar a bajar */
+@supports (animation-timeline: scroll()) {
+  .hero-parallax {
+    animation: hero-parallax linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 90vh;
+  }
+}
+@keyframes hero-parallax {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-8%) scale(1.14);
+  }
+}
+
+/* Lienzo full-bleed: cubre toda la pantalla y comparte coordenadas
+   entre la mano (base) y el cubo (overlay), para alineación perfecta. */
+.hero-canvas {
+  width: max(100vw, calc(100svh * 2816 / 1536));
+  aspect-ratio: 2816 / 1536;
+  transform: translate(-50%, -50%);
+}
+
+/* Todo el fondo (la escena de la mano) se mueve/acerca con el scroll */
+@supports (animation-timeline: scroll()) {
+  .hero-scene {
+    animation: hero-scene-move linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 160vh;
+    will-change: transform;
+  }
+}
+@keyframes hero-scene-move {
+  from {
+    transform: scale(1) translateY(0);
+  }
+  to {
+    transform: scale(1.16) translateY(-5%);
+  }
+}
+
+/* El cubo fF real gira en 3D y se eleva a medida que haces scroll */
+@supports (animation-timeline: scroll()) {
+  .hero-cube {
+    animation: hero-cube-spin linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 160vh;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+  .hero-cube-glow {
+    animation: hero-cube-glow linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 160vh;
+  }
+}
+@keyframes hero-cube-spin {
+  from {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0) scale(1);
+  }
+  to {
+    transform: perspective(1000px) rotateY(-360deg) rotateX(16deg) translateY(-18%)
+      scale(1.16);
+  }
+}
+@keyframes hero-cube-glow {
+  from {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+  }
+  to {
+    opacity: 0.5;
+    transform: scale(1.35);
+  }
+}
+
+/* Sin scroll-driven support: la escena vuelve a flujo normal (estático) */
+@supports not (animation-timeline: view()) {
+  .scene__img {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Respeta reduce-motion: escenas estáticas, sin fijar */
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    height: auto !important;
+  }
+  .scene__stage {
+    position: static !important;
+    height: auto !important;
+    padding-block: 5rem;
+  }
+  .scene__img,
+  .scene__glow,
+  .scene__eyebrow,
+  .scene__title,
+  .scene__copy,
+  .hero-parallax,
+  .hero-scene,
+  .hero-cube,
+  .hero-cube-glow {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
