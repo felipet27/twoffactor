@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  Proveedor OIDC de GitHub Actions y rol de despliegue exclusivo para
+  felipet27/twoffactor (rama main) - sube el export estatico a S3 e invalida
+  CloudFront.
+
+# Despliegue (una sola vez):
+#   aws cloudformation deploy --profile aws-personal --region us-east-1 \
+#     --stack-name twoffactor-github-deploy \
+#     --template-file infra/github-deploy-role.yml \
+#     --capabilities CAPABILITY_NAMED_IAM
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: felipet27/twoffactor
+    Description: Repositorio (owner/nombre) autorizado a asumir el rol.
+  GitHubBranch:
+    Type: String
+    Default: main
+  BucketName:
+    Type: String
+    Default: twoffactor.com
+  DistributionId:
+    Type: String
+    Default: EDTVZLGJT7SPC
+
+Resources:
+  # AWS ya no valida el thumbprint para el emisor de GitHub, por eso se omite.
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+
+  DeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: twoffactor-github-deploy
+      Description: GitHub Actions - despliegue de twoffactor.com (S3 + CloudFront)
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Ref GitHubOidcProvider
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubRepo}:ref:refs/heads/${GitHubBranch}
+      Policies:
+        - PolicyName: deploy-static-site
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              # `aws s3 sync --delete` necesita listar, subir y borrar.
+              - Sid: ListBucket
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !Sub arn:aws:s3:::${BucketName}
+              - Sid: WriteObjects
+                Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource: !Sub arn:aws:s3:::${BucketName}/*
+              - Sid: InvalidateCache
+                Effect: Allow
+                Action:
+                  - cloudfront:CreateInvalidation
+                  - cloudfront:GetInvalidation
+                Resource: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${DistributionId}
+
+Outputs:
+  RoleArn:
+    Description: Valor para role-to-assume en el workflow.
+    Value: !GetAtt DeployRole.Arn
