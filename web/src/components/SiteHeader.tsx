@@ -30,7 +30,7 @@ export function SiteHeader() {
 
         <a
           href="mailto:hola@twoffactor.dev?subject=Quiero%20hablar%20con%20Two%20FFactor"
-          className="rounded-full border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-medium text-cyan-bright transition-all hover:bg-cyan/20 hover:ring-glow"
+          className="shrink-0 rounded-full border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-medium text-cyan-bright transition-all hover:bg-cyan/20 hover:ring-glow"
         >
           Hablemos
         </a>

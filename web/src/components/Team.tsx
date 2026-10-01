@@ -15,7 +15,7 @@ const members = [
 
 export function Team() {
   return (
-    <section id="quienes-somos" className="mx-auto max-w-7xl px-6 py-28">
+    <section id="quienes-somos" className="mx-auto max-w-7xl px-6 py-16 sm:py-28">
       <div className="reveal max-w-2xl">
         <p className="mb-4 text-xs uppercase tracking-[0.25em] text-cyan-bright">
           Quiénes somos
@@ -31,7 +31,7 @@ export function Team() {
         </p>
       </div>
 
-      <div className="cards3d mt-16 grid gap-6 md:grid-cols-2">
+      <div className="cards3d mt-10 grid gap-6 sm:mt-16 md:grid-cols-2">
         {members.map((m, i) => (
           <article
             key={m.name}

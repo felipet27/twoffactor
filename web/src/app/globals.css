@@ -37,6 +37,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip; /* previene scroll horizontal sin romper position:sticky */
 }
 
 body {
@@ -47,7 +48,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip; /* contiene las transformaciones 3D sin romper position: sticky */
+  overflow-x: clip; /* contiene transformaciones 3D sin romper position:sticky (Chrome 90+, Safari 16+) */
 }
 
 /* ============================================================
@@ -235,6 +236,32 @@ body {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+  }
+}
+
+/* Móvil: animación simple sin desplazamiento lateral (evita overflow horizontal) */
+@media (max-width: 767px) {
+  @supports (animation-timeline: view()) {
+    .card3d--left,
+    .card3d--right {
+      animation-name: card-in-mobile;
+      animation-range: entry 0% cover 50%;
+    }
+  }
+}
+@keyframes card-in-mobile {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.95);
+    filter: blur(8px);
+  }
+  55% {
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
