@@ -3,6 +3,9 @@ name: Deploy
 on:
   push:
     branches: [main]
+    paths:
+      - "web/**"
+      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 # Un solo despliegue a la vez; uno nuevo espera a que termine el anterior.
@@ -14,23 +17,37 @@ permissions:
   contents: read
   id-token: write # necesario para obtener el token OIDC
 
+# Variables del repo: Settings → Secrets and variables → Actions → Variables.
 env:
-  AWS_REGION: us-east-1
-  AWS_ROLE_ARN: arn:aws:iam::989983386152:role/twoffactor-github-deploy
-  S3_BUCKET: twoffactor.com
-  CF_DISTRIBUTION_ID: EDTVZLGJT7SPC
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
+  AWS_ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
+  S3_BUCKET: ${{ vars.S3_BUCKET }}
+  CF_DISTRIBUTION_ID: ${{ vars.CF_DISTRIBUTION_ID }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: web
     steps:
+      - name: Check repository variables
+        working-directory: .
+        run: |
+          missing=0
+          for v in AWS_ROLE_ARN S3_BUCKET CF_DISTRIBUTION_ID; do
+            [ -n "${!v}" ] || { echo "::error::Falta la variable del repo $v"; missing=1; }
+          done
+          exit $missing
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: web/package-lock.json
 
       - run: npm ci
 
