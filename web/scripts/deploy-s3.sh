@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Sube el export estático (out/) a S3 e invalida CloudFront.
 # Uso: S3_BUCKET=mi-bucket CF_DISTRIBUTION_ID=E123ABC ./scripts/deploy-s3.sh
-# Requiere haber ejecutado antes `npm run build:static`.
+# Requiere haber ejecutado antes `npm run build:static` (o definir OUT_DIR).
 set -euo pipefail
 
 : "${S3_BUCKET:?Define S3_BUCKET}"
-OUT_DIR="$(dirname "$0")/../out"
+OUT_DIR="${OUT_DIR:-$(dirname "$0")/../out}"
 [ -f "$OUT_DIR/index.html" ] || { echo "No existe out/index.html. Ejecuta: npm run build:static" >&2; exit 1; }
 
 # 1. Assets con hash: caché inmutable de 1 año (equivale a /_next/static/* en _headers).
