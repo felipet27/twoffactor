@@ -15,6 +15,15 @@ Parameters:
     Type: String
     Default: felipet27/twoffactor
     Description: Repositorio (owner/nombre) autorizado a asumir el rol.
+  # IDs inmutables (GET https://api.github.com/repos/<owner>/<repo>): GitHub
+  # los incluye en el claim sub, asi un repo recreado con el mismo nombre no
+  # hereda el acceso.
+  GitHubOwnerId:
+    Type: String
+    Default: "76647777"
+  GitHubRepoId:
+    Type: String
+    Default: "1396226843"
   GitHubBranch:
     Type: String
     Default: main
@@ -50,7 +59,10 @@ Resources:
             Condition:
               StringEquals:
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
-                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubRepo}:ref:refs/heads/${GitHubBranch}
+                token.actions.githubusercontent.com:sub: !Sub
+                  - repo:${Owner}@${GitHubOwnerId}/${Repo}@${GitHubRepoId}:ref:refs/heads/${GitHubBranch}
+                  - Owner: !Select [0, !Split ["/", !Ref GitHubRepo]]
+                    Repo: !Select [1, !Split ["/", !Ref GitHubRepo]]
       Policies:
         - PolicyName: deploy-static-site
           PolicyDocument:
