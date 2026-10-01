@@ -127,11 +127,16 @@ export function ScrollVideo() {
         {/* Scrims para legibilidad */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/35 to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/55 to-ink/10"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/20"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/20 to-ink/25"
+        />
+        {/* Velo extra en móvil: el robot ocupa toda la pantalla */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-ink/30 md:hidden"
         />
 
         {/* Textos sincronizados con el scroll */}
@@ -150,9 +155,9 @@ export function ScrollVideo() {
                 </p>
                 <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-chrome sm:text-5xl lg:text-6xl">
                   La mayoría del software{" "}
-                  <span className="text-muted">falla en silencio.</span>
+                  <span className="text-chrome/60">falla en silencio.</span>
                 </h2>
-                <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+                <p className="mt-6 max-w-xl text-base leading-relaxed text-chrome/65 sm:text-lg">
                   No el día que lo entregan — meses después, cuando nadie mira.{" "}
                   <span className="font-semibold text-chrome">
                     Two <span className="text-gradient">FF</span>actor
@@ -187,7 +192,7 @@ export function ScrollVideo() {
                   Dos factores,{" "}
                   <span className="text-gradient">un solo resultado.</span>
                 </h2>
-                <p className="mt-4 max-w-xl text-base text-muted sm:text-lg">
+                <p className="mt-4 max-w-xl text-base text-chrome/65 sm:text-lg">
                   <span className="font-semibold text-chrome">Fast</span>,
                   velocidad de entrega.{" "}
                   <span className="font-semibold text-chrome">Fair</span>,
@@ -211,7 +216,7 @@ export function ScrollVideo() {
                       <span className="font-mono text-xs text-cyan-bright">
                         {n}
                       </span>
-                      <p className="text-sm text-muted sm:text-base">
+                      <p className="text-sm text-chrome/65 sm:text-base">
                         <span className="font-semibold text-chrome">
                           {name}
                         </span>{" "}
@@ -272,7 +277,7 @@ export function ScrollVideo() {
                   >
                     Empecemos la conversación
                   </a>
-                  <p className="mt-3 text-xs text-muted-dim">
+                  <p className="mt-3 text-xs text-chrome/40">
                     Cuéntanos qué te está costando hoy tu proceso actual. Te
                     respondemos nosotros, no un formulario.
                   </p>
