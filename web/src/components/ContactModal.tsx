@@ -93,9 +93,17 @@ export function ContactModal() {
   }, []);
 
   useEffect(() => {
-    if (window.location.hash === "#hablemos") {
-      setOpen(true);
-      history.replaceState(null, "", window.location.pathname);
+    const check = () => {
+      if (window.location.hash === "#hablemos") {
+        setOpen(true);
+        history.replaceState(null, "", window.location.pathname);
+      }
+    };
+    // Espera a que la página esté completamente cargada antes de revisar el hash
+    if (document.readyState === "complete") {
+      check();
+    } else {
+      window.addEventListener("load", check, { once: true });
     }
   }, []);
 
