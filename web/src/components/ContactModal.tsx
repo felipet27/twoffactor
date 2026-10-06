@@ -93,6 +93,13 @@ export function ContactModal() {
   }, []);
 
   useEffect(() => {
+    if (window.location.hash === "#hablemos") {
+      setOpen(true);
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") close(); };
     window.addEventListener("keydown", onKey);
