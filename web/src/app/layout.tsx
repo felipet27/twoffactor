@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TwoFFactor — Advanced Technology & Security Solutions",
+  title: "TwoFFactor - Fair and Fast",
   description:
     "TwoFFactor (Fair and Fast): tecnología avanzada y soluciones de seguridad impulsadas por IA. Predicción, prevención y auditoría en tiempo real a escala global.",
   keywords: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "tecnología avanzada",
   ],
   openGraph: {
-    title: "TwoFFactor — Advanced Technology & Security Solutions",
+    title: "TwoFFactor - Fair and Fast",
     description:
       "Tecnología avanzada y seguridad impulsada por IA. Fair and Fast.",
     type: "website",
