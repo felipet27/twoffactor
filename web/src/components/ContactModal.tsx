@@ -94,12 +94,12 @@ export function ContactModal() {
 
   useEffect(() => {
     const check = () => {
-      if (window.location.hash === "#hablemos") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("hablemos") || window.location.hash === "#hablemos") {
         setOpen(true);
         history.replaceState(null, "", window.location.pathname);
       }
     };
-    // Espera a que la página esté completamente cargada antes de revisar el hash
     if (document.readyState === "complete") {
       check();
     } else {
