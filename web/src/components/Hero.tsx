@@ -64,12 +64,6 @@ export function Hero() {
             >
               Ver soluciones
             </a>
-            <a
-              href="#brochure"
-              className="rounded-full border border-chrome/15 px-7 py-3 font-medium text-chrome transition-colors hover:border-cyan/40 hover:text-cyan-bright"
-            >
-              Descargar brochure
-            </a>
           </div>
 
           <dl className="anim-stats mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-chrome/10 pt-8">

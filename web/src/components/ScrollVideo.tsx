@@ -2,64 +2,15 @@
 
 import { useEffect, useRef } from "react";
 
-const FRAME_COUNT = 240;
-const frameSrc = (i: number) => `/frames/f${String(i).padStart(3, "0")}.webp`;
-
 export function ScrollVideo() {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const capRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
     const wrap = wrapRef.current;
-    if (!canvas || !wrap) return;
-    const ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) return;
+    if (!wrap) return;
 
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    // Precarga de fotogramas
-    imagesRef.current = Array.from({ length: FRAME_COUNT }, (_, k) => {
-      const img = new Image();
-      img.src = frameSrc(k + 1);
-      if (k === 0) img.onload = () => draw(0);
-      return img;
-    });
-
-    let lastFrame = -1;
-
-    const drawCover = (img: HTMLImageElement) => {
-      const cw = canvas.width;
-      const ch = canvas.height;
-      const ir = img.naturalWidth / img.naturalHeight;
-      const cr = cw / ch;
-      let dw: number, dh: number, dx: number, dy: number;
-      if (cr > ir) {
-        dw = cw;
-        dh = cw / ir;
-        dx = 0;
-        dy = (ch - dh) / 2;
-      } else {
-        dh = ch;
-        dw = ch * ir;
-        dy = 0;
-        dx = (cw - dw) / 2;
-      }
-      ctx.drawImage(img, dx, dy, dw, dh);
-    };
-
-    const draw = (frame: number) => {
-      const img = imagesRef.current[frame];
-      if (img && img.complete && img.naturalWidth) {
-        drawCover(img);
-        lastFrame = frame;
-      }
-    };
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const tri = (p: number, a: number, b: number, c: number, d: number) => {
       if (p <= a || p >= d) return 0;
@@ -83,46 +34,35 @@ export function ScrollVideo() {
       });
     };
 
-    const resize = () => {
-      canvas.width = Math.round(window.innerWidth * dpr);
-      canvas.height = Math.round(window.innerHeight * dpr);
-      ctx.fillStyle = "#050a18";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      lastFrame = -1;
-      if (imagesRef.current[0]) draw(0);
-    };
-
-    const render = () => {
-      const rect = wrap.getBoundingClientRect();
-      const scrollable = rect.height - window.innerHeight;
-      const p =
-        scrollable > 0
-          ? Math.min(1, Math.max(0, -rect.top / scrollable))
-          : 0;
-      const frame = reduce ? 0 : Math.round(p * (FRAME_COUNT - 1));
-      if (frame !== lastFrame) draw(frame);
-      setCaptions(reduce ? 0 : p);
-    };
-
     let raf = 0;
     const loop = () => {
-      render();
+      const rect = wrap.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      const p = reduce
+        ? 0
+        : scrollable > 0
+        ? Math.min(1, Math.max(0, -rect.top / scrollable))
+        : 0;
+      setCaptions(reduce ? 0 : p);
       raf = requestAnimationFrame(loop);
     };
 
-    resize();
-    window.addEventListener("resize", resize);
     raf = requestAnimationFrame(loop);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-    };
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
-    <section id="top" ref={wrapRef} className="relative h-[680vh]">
+    <section id="top" ref={wrapRef} className="relative h-[350vh]">
       <div className="sticky top-0 h-svh w-full overflow-hidden">
-        <canvas ref={canvasRef} className="block h-full w-full" />
+        {/* Video de fondo en autoplay */}
+        <video
+          src="/video_twoffactor.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="block h-full w-full object-cover"
+        />
 
         {/* Scrims para legibilidad */}
         <div
@@ -133,21 +73,19 @@ export function ScrollVideo() {
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/20 to-ink/25"
         />
-        {/* Velo extra en móvil: el robot ocupa toda la pantalla */}
+        {/* Velo extra en móvil */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-ink/30 md:hidden"
         />
 
-        {/* Textos sincronizados con el scroll */}
+        {/* Textos controlados por scroll */}
         <div className="absolute inset-0">
           <div className="mx-auto flex h-full max-w-7xl items-end px-6 pb-[13vh]">
             <div className="relative w-full">
               {/* Etapa 1 — Software a la medida */}
               <div
-                ref={(el) => {
-                  capRefs.current[0] = el;
-                }}
+                ref={(el) => { capRefs.current[0] = el; }}
                 className="absolute bottom-0 left-0 will-change-[opacity,transform]"
               >
                 <p className="text-sm uppercase tracking-[0.35em] text-cyan-bright">
@@ -166,20 +104,20 @@ export function ScrollVideo() {
                   </span>
                 </p>
                 <div className="mt-8">
-                  <button
-                    onClick={() => window.dispatchEvent(new CustomEvent("open-contact"))}
-                    className="rounded-full bg-gradient-to-r from-cyan to-blue px-7 py-3 font-semibold text-ink transition-transform hover:scale-[1.03] hover:ring-glow"
+                  <a
+                    href="https://calendly.com/admin-twoffactor"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block rounded-full bg-gradient-to-r from-cyan to-blue px-7 py-3 font-semibold text-ink transition-transform hover:scale-[1.03] hover:ring-glow"
                   >
                     Agenda tu sesión Discovery →
-                  </button>
+                  </a>
                 </div>
               </div>
 
               {/* Etapa 2 — Cómo trabajamos */}
               <div
-                ref={(el) => {
-                  capRefs.current[1] = el;
-                }}
+                ref={(el) => { capRefs.current[1] = el; }}
                 className="absolute bottom-0 left-0 opacity-0 will-change-[opacity,transform]"
               >
                 <p className="text-sm uppercase tracking-[0.35em] text-cyan-bright">
@@ -199,31 +137,14 @@ export function ScrollVideo() {
                 </p>
                 <div className="mt-7 max-w-xl space-y-3">
                   {[
-                    [
-                      "01",
-                      "Construcción a la medida",
-                      "Anclamos el desarrollo en tus métricas de ahorro o ganancia. Alcance definido y precio de entrada claro, sin sorpresas.",
-                    ],
-                    [
-                      "02",
-                      "Operación Continua",
-                      "Tu negocio no se detiene. Infraestructura en la nube, seguridad, soporte prioritario y continuidad garantizada sin importar la conectividad.",
-                    ],
-                    [
-                      "03",
-                      "Evolución y Mejoras",
-                      "Tu software crece contigo. Cada plan incluye una bolsa de mejoras mensual para adaptarse a tus nuevos retos.",
-                    ],
+                    ["01", "Construcción a la medida", "Anclamos el desarrollo en tus métricas de ahorro o ganancia. Alcance definido y precio de entrada claro, sin sorpresas."],
+                    ["02", "Operación Continua", "Tu negocio no se detiene. Infraestructura en la nube, seguridad, soporte prioritario y continuidad garantizada sin importar la conectividad."],
+                    ["03", "Evolución y Mejoras", "Tu software crece contigo. Cada plan incluye una bolsa de mejoras mensual para adaptarse a tus nuevos retos."],
                   ].map(([n, name, desc]) => (
                     <div key={n} className="flex gap-4">
-                      <span className="font-mono text-xs text-cyan-bright">
-                        {n}
-                      </span>
+                      <span className="font-mono text-xs text-cyan-bright">{n}</span>
                       <p className="text-sm text-chrome/65 sm:text-base">
-                        <span className="font-semibold text-chrome">
-                          {name}
-                        </span>{" "}
-                        — {desc}
+                        <span className="font-semibold text-chrome">{name}</span>{" "}— {desc}
                       </p>
                     </div>
                   ))}
@@ -232,9 +153,7 @@ export function ScrollVideo() {
 
               {/* Etapa 3 — Garantía y Confianza */}
               <div
-                ref={(el) => {
-                  capRefs.current[2] = el;
-                }}
+                ref={(el) => { capRefs.current[2] = el; }}
                 className="absolute bottom-0 left-0 opacity-0 will-change-[opacity,transform]"
               >
                 <p className="text-sm uppercase tracking-[0.35em] text-cyan-bright">
@@ -252,24 +171,11 @@ export function ScrollVideo() {
                   ].map((c) => (
                     <li key={c} className="flex items-start gap-3">
                       <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-cyan/40 bg-cyan/10 text-cyan-bright">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          className="h-3.5 w-3.5"
-                          aria-hidden
-                        >
-                          <path
-                            d="M5 13l4 4L19 7"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
+                        <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
+                          <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </span>
-                      <span className="text-sm text-chrome sm:text-base">
-                        {c}
-                      </span>
+                      <span className="text-sm text-chrome sm:text-base">{c}</span>
                     </li>
                   ))}
                 </ul>

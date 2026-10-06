@@ -123,12 +123,6 @@ export function DiveSequence() {
               >
                 Ver soluciones
               </a>
-              <a
-                href="#brochure"
-                className="rounded-full border border-chrome/15 px-7 py-3 font-medium text-chrome transition-colors hover:border-cyan/40 hover:text-cyan-bright"
-              >
-                Descargar brochure
-              </a>
             </div>
           </div>
         </div>

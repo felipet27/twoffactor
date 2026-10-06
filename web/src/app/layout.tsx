@@ -28,8 +28,10 @@ export const metadata: Metadata = {
     description:
       "Tecnología avanzada y seguridad impulsada por IA. Fair and Fast.",
     type: "website",
+    url: "https://twoffactor.com",
     locale: "es_ES",
   },
+  metadataBase: new URL("https://twoffactor.com"),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

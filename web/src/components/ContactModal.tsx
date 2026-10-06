@@ -1,25 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
-const WA_TEXT = encodeURIComponent(
-  "Hola TwoFFactor, me gustaría conocer más sobre sus servicios."
-);
-const CALENDLY_URL = "https://calendly.com/twoffactor"; // reemplaza con tu URL real
+const CALENDLY_URL = "https://calendly.com/admin-twoffactor";
 
 const FOUNDERS = [
   {
     initials: "JP",
     name: "Juan Pablo Hurtado",
+    firstName: "Juan Pablo",
     role: "Backend & Seguridad",
-    wa: "XXXXXXXXXXX", // reemplaza con número real (sin + ni espacios)
+    wa: "573113627287",
     email: "pablo@twoffactor.com",
   },
   {
     initials: "FT",
     name: "Felipe Tangarife",
+    firstName: "Felipe",
     role: "Producto & Frontend",
-    wa: "XXXXXXXXXXX", // reemplaza con número real (sin + ni espacios)
+    wa: "573173780801",
     email: "felipe@twoffactor.com",
   },
 ];
@@ -75,6 +75,8 @@ function IconArrow({ className = "" }: { className?: string }) {
 export function ContactModal() {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (open) {
@@ -104,7 +106,10 @@ export function ContactModal() {
 
   function close() {
     setVisible(false);
-    setTimeout(() => setOpen(false), 220);
+    setTimeout(() => {
+      setOpen(false);
+      if (pathname === "/hablemos") router.push("/");
+    }, 220);
   }
 
   return (
@@ -191,7 +196,7 @@ export function ContactModal() {
                     </div>
                     <div className="flex shrink-0 flex-row items-center gap-1">
                       <a
-                        href={`https://wa.me/${f.wa}?text=${WA_TEXT}`}
+                        href={`https://wa.me/${f.wa}?text=${encodeURIComponent(`Hola ${f.firstName}, me gustaría contactarme contigo para conocer más sobre los servicios de TwoFFactor.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={close}
