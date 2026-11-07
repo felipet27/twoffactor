@@ -1,14 +1,11 @@
-import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { hasLocale } from "@/i18n/config";
 import { TallerContactModal } from "@/components/TallerContactModal";
 import { RobotsGreeting } from "@/components/RobotsGreeting";
 import { TallerHablemosBtn } from "@/components/TallerHablemosBtn";
-import felipePhoto from "../../../public/images/felipe-tangarife.jpg";
-import juanPabloPhoto from "../../../public/images/juan-pablo-hurtado.jpg";
+import felipePhoto from "../../public/images/felipe-tangarife.jpg";
+import juanPabloPhoto from "../../public/images/juan-pablo-hurtado.jpg";
 
-// ── Grano (textura de fondo para secciones oscuras) ───────────
 function Grano() {
   return (
     <svg
@@ -26,7 +23,6 @@ function Grano() {
   );
 }
 
-// ── Logo completo (nav) ───────────────────────────────────────
 function TallerLogo() {
   return (
     <svg viewBox="0 0 421.13 104.00" width="180" height="44.5" role="img" aria-label="TwoFFactor" style={{ display: "block" }}>
@@ -58,76 +54,45 @@ function TallerLogo() {
   );
 }
 
-// ── Robots héroe ──────────────────────────────────────────────
 function RobotsMascot({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 200 150" width="100%" height="100%" className={className} role="img" aria-label="Los dos robots de TwoFFactor">
       <circle cx="100" cy="68" r="56" fill="#B87333" />
       <g stroke="#0B0C10" strokeWidth="3" strokeLinejoin="round">
-        {/* Brazos laterales */}
         <rect x="40" y="74" width="9" height="28" rx="3" fill="#5B6670" />
         <rect x="151" y="74" width="9" height="28" rx="3" fill="#5B6670" />
-        {/* Robot izquierdo — antena */}
         <path d="M70 16V28" fill="none" />
         <circle cx="70" cy="13" r="4" fill="#F3EEE4" />
-        {/* Robot izquierdo — cabeza crema */}
         <rect x="50" y="28" width="40" height="34" rx="8" fill="#F3EEE4" />
-        {/* Robot izquierdo — cuello */}
         <rect x="66" y="62" width="8" height="7" rx="0" fill="#0B0C10" />
-        {/* Robot izquierdo — cuerpo */}
         <rect x="48" y="69" width="44" height="42" rx="6" fill="#0B0C10" />
-        {/* Robot izquierdo — piernas */}
         <rect x="56" y="111" width="8" height="18" rx="0" fill="#5B6670" />
         <rect x="76" y="111" width="8" height="18" rx="0" fill="#5B6670" />
-        {/* Robot izquierdo — pies */}
         <rect x="50" y="128" width="16" height="8" rx="3" fill="#B87333" />
         <rect x="74" y="128" width="16" height="8" rx="3" fill="#B87333" />
-        {/* Robot derecho — cabeza crema */}
         <rect x="108" y="22" width="44" height="40" rx="8" fill="#F3EEE4" />
-        {/* Robot derecho — orejeras laterales */}
         <rect x="104" y="36" width="5" height="12" rx="2" fill="#5B6670" />
         <rect x="151" y="36" width="5" height="12" rx="2" fill="#5B6670" />
-        {/* Robot derecho — cuello */}
         <rect x="126" y="62" width="8" height="7" rx="0" fill="#0B0C10" />
-        {/* Robot derecho — cuerpo */}
         <rect x="108" y="69" width="44" height="42" rx="6" fill="#0B0C10" />
-        {/* Robot derecho — piernas */}
         <rect x="116" y="111" width="8" height="18" rx="0" fill="#5B6670" />
         <rect x="136" y="111" width="8" height="18" rx="0" fill="#5B6670" />
-        {/* Robot derecho — pies */}
         <rect x="110" y="128" width="16" height="8" rx="3" fill="#B87333" />
         <rect x="134" y="128" width="16" height="8" rx="3" fill="#B87333" />
-        {/* Barra conectora */}
         <rect x="86" y="84" width="28" height="7" rx="3" fill="#B87333" />
       </g>
-      {/* Robot izquierdo — ojo (negro con pupila cobre) */}
       <circle cx="62" cy="44" r="6" fill="#0B0C10" />
       <circle cx="62" cy="44" r="2" fill="#B87333" />
-      {/* Robot izquierdo — boca */}
       <rect x="68" y="52" width="14" height="3" rx="1.5" fill="#0B0C10" />
-      {/* Robot derecho — visor rectangular */}
       <rect x="116" y="36" width="28" height="9" rx="4.5" fill="#0B0C10" />
-      {/* Robot derecho — boca */}
       <rect x="124" y="52" width="14" height="3" rx="1.5" fill="#0B0C10" />
-      {/* LEDs laterales */}
       <circle cx="70" cy="88" r="6" fill="#5B6670" />
       <circle cx="130" cy="88" r="6" fill="#5B6670" />
     </svg>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PÁGINA TALLER
-// ═══════════════════════════════════════════════════════════════
-
-export default async function TallerPage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  if (!hasLocale(lang)) notFound();
-
+export default function TallerPage() {
   return (
     <div style={{ position: "relative", fontFamily: "'Gabarito', sans-serif", color: "#0B0C10", background: "#FAF8F4" }}>
       <TallerContactModal />
@@ -136,7 +101,7 @@ export default async function TallerPage({
       {/* ─────────────────────── NAVEGACIÓN ──────────────────── */}
       <header style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 5 }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16, paddingTop: 18, paddingBottom: 18 }}>
-          <Link href={`/${lang}`} aria-label="TwoFFactor, volver al inicio" style={{ display: "block" }}>
+          <Link href="/" aria-label="TwoFFactor, volver al inicio" style={{ display: "block" }}>
             <TallerLogo />
           </Link>
           <nav aria-label="Taller" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 24px", fontSize: 16 }}>
@@ -254,8 +219,6 @@ export default async function TallerPage({
                 <a href="https://calendly.com/admin-twoffactor" target="_blank" rel="noopener noreferrer" style={{ marginTop: "auto", fontFamily: "'Ubuntu Mono', monospace", fontSize: 14, color: "#8C5524", minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>&gt; así lo resolvemos_</a>
               </div>
             ))}
-
-            {/* Tarjeta CTA — ¿No está tu sector? */}
             <div style={{ background: "#0B0C10", border: "1px solid #B87333", borderRadius: 4, padding: "26px 24px", minHeight: 240, display: "flex", flexDirection: "column", gap: 12 }}>
               <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#B87333" }}>TU SECTOR</div>
               <h3 style={{ margin: 0, fontWeight: 700, fontSize: 26, lineHeight: 1.15, color: "#FAF8F4" }}>¿No está tu sector aquí?</h3>
@@ -276,17 +239,9 @@ export default async function TallerPage({
             <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 14, color: "#436C84" }}>&gt; sin intermediarios_</div>
           </div>
           <div style={{ flex: "999 1 560px", minWidth: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, 286px)", justifyContent: "center", gap: 20, alignSelf: "center" }}>
-            {/* Felipe Tangarife */}
             <figure style={{ margin: 0, display: "flex", flexDirection: "column", gap: 14, background: "#FFFFFF", border: "1px solid #E2DED6", borderRadius: 12, padding: 14 }}>
               <div style={{ position: "relative", width: 256, maxWidth: "100%", aspectRatio: "4/5", borderRadius: 8, overflow: "hidden" }}>
-                <Image
-                  src={felipePhoto}
-                  alt="Felipe Tangarife, cofundador de TwoFFactor"
-                  fill
-                  sizes="256px"
-                  style={{ objectFit: "cover" }}
-                  placeholder="blur"
-                />
+                <Image src={felipePhoto} alt="Felipe Tangarife, cofundador de TwoFFactor" fill sizes="256px" style={{ objectFit: "cover" }} placeholder="blur" />
               </div>
               <figcaption style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <span style={{ fontWeight: 700, fontSize: 19, color: "#0B0C10" }}>Felipe Tangarife</span>
@@ -298,17 +253,9 @@ export default async function TallerPage({
                 </span>
               </figcaption>
             </figure>
-            {/* Juan Pablo Hurtado */}
             <figure style={{ margin: 0, display: "flex", flexDirection: "column", gap: 14, background: "#FFFFFF", border: "1px solid #E2DED6", borderRadius: 12, padding: 14 }}>
               <div style={{ position: "relative", width: 256, maxWidth: "100%", aspectRatio: "4/5", borderRadius: 8, overflow: "hidden" }}>
-                <Image
-                  src={juanPabloPhoto}
-                  alt="Juan Pablo Hurtado, cofundador de TwoFFactor"
-                  fill
-                  sizes="256px"
-                  style={{ objectFit: "cover" }}
-                  placeholder="blur"
-                />
+                <Image src={juanPabloPhoto} alt="Juan Pablo Hurtado, cofundador de TwoFFactor" fill sizes="256px" style={{ objectFit: "cover" }} placeholder="blur" />
               </div>
               <figcaption style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <span style={{ fontWeight: 700, fontSize: 19, color: "#0B0C10" }}>Juan Pablo Hurtado</span>
@@ -335,8 +282,6 @@ export default async function TallerPage({
               </div>
               <TallerHablemosBtn />
             </div>
-
-            {/* Footer grid */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", borderTop: "1px solid rgba(250,248,244,0.16)", borderLeft: "1px solid rgba(250,248,244,0.16)" }}>
               <div style={{ borderRight: "1px solid rgba(250,248,244,0.16)", borderBottom: "1px solid rgba(250,248,244,0.16)", padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
                 <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#A9ABB1" }}>NAVEGA</div>
@@ -356,7 +301,6 @@ export default async function TallerPage({
                 <a href="https://www.instagram.com/twoffactor/" target="_blank" rel="noopener noreferrer" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>Instagram</a>
               </div>
             </div>
-
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, paddingBottom: 28, fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, color: "#A9ABB1" }}>
               <span>&lt; WEB: twoffactor.com &gt; &lt; LOC: COL &gt;</span>
               <span>© {new Date().getFullYear()} TwoFFactor</span>
@@ -365,18 +309,17 @@ export default async function TallerPage({
         </div>
       </section>
 
-      {/* Enlace al Laboratorio — izquierda, estático */}
+      {/* Enlace al Laboratorio */}
       <div style={{ background: "#0B0C10", borderTop: "1px solid rgba(250,248,244,0.08)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 24px", boxSizing: "border-box" }}>
           <Link
-            href={`/${lang}/laboratorio`}
+            href="/laboratorio"
             style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 8, border: "1px solid rgba(250,248,244,0.15)", padding: "10px 20px", fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, fontWeight: 600, color: "#A9ABB1", textDecoration: "none" }}
           >
             Laboratorio
           </Link>
         </div>
       </div>
-
     </div>
   );
 }

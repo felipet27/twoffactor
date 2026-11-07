@@ -30,7 +30,7 @@ export function SiteFooter({ lang }: { lang: Locale }) {
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-6 py-12 sm:flex-row sm:items-center">
         {/* Enlace al Taller */}
         <Link
-          href={`/${lang}`}
+          href="/"
           className="steampunk-btn steampunk-btn--inactive"
         >
           <span className="steampunk-rivet steampunk-rivet--tl" />

@@ -4,10 +4,6 @@ export const dynamic = "force-static";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export function generateStaticParams() {
-  return [{ lang: "es" }, { lang: "en" }];
-}
-
 const ROBOTS_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150">
   <circle cx="100" cy="68" r="56" fill="#B87333"/>
   <g stroke="#0B0C10" stroke-width="3" stroke-linejoin="round">
@@ -58,9 +54,7 @@ export default function OGImage() {
           gap: 64,
         }}
       >
-        {/* Columna izquierda */}
         <div style={{ display: "flex", flexDirection: "column", gap: 24, flex: 1 }}>
-          {/* Logo badge + nombre */}
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <div
               style={{
@@ -80,68 +74,22 @@ export default function OGImage() {
             >
               fF
             </div>
-            <span
-              style={{
-                color: "#FAF8F4",
-                fontSize: 22,
-                fontWeight: 600,
-                letterSpacing: -0.5,
-                fontFamily: "sans-serif",
-              }}
-            >
+            <span style={{ color: "#FAF8F4", fontSize: 22, fontWeight: 600, letterSpacing: -0.5, fontFamily: "sans-serif" }}>
               TwoFFactor
             </span>
           </div>
-
-          {/* Eyebrow */}
-          <div
-            style={{
-              color: "#5B6670",
-              fontSize: 13,
-              letterSpacing: 3,
-              textTransform: "uppercase",
-              fontFamily: "monospace",
-            }}
-          >
+          <div style={{ color: "#5B6670", fontSize: 13, letterSpacing: 3, textTransform: "uppercase", fontFamily: "monospace" }}>
             SOFTWARE A LA MEDIDA · COLOMBIA
           </div>
-
-          {/* Headline */}
-          <div
-            style={{
-              color: "#FAF8F4",
-              fontSize: 54,
-              fontWeight: 700,
-              lineHeight: 1.05,
-              letterSpacing: -1.5,
-              fontFamily: "sans-serif",
-            }}
-          >
+          <div style={{ color: "#FAF8F4", fontSize: 54, fontWeight: 700, lineHeight: 1.05, letterSpacing: -1.5, fontFamily: "sans-serif" }}>
             Tu negocio no puede detenerse.
           </div>
-
-          {/* Subline */}
-          <div
-            style={{
-              color: "#B87333",
-              fontSize: 22,
-              fontFamily: "monospace",
-              letterSpacing: 0.5,
-            }}
-          >
+          <div style={{ color: "#B87333", fontSize: 22, fontFamily: "monospace", letterSpacing: 0.5 }}>
             Tu software tampoco_
           </div>
         </div>
-
-        {/* Robots */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={robotsDataUri}
-          width={380}
-          height={285}
-          alt=""
-          style={{ flexShrink: 0 }}
-        />
+        <img src={robotsDataUri} width={380} height={285} alt="" style={{ flexShrink: 0 }} />
       </div>
     ),
     { width: 1200, height: 630 }
