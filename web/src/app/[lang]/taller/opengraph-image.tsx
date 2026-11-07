@@ -1,8 +1,12 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+export const dynamic = "force-static";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+export function generateStaticParams() {
+  return [{ lang: "es" }, { lang: "en" }];
+}
 
 const ROBOTS_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150">
   <circle cx="100" cy="68" r="56" fill="#B87333"/>
