@@ -24,17 +24,17 @@ export function LocaleRedirect({ path = "" }: { path?: string }) {
   useEffect(() => {
     const { search, hash } = window.location;
     const locale = preferredLocale();
-    const dest = path || "/taller";
+    const dest = path || "";
     window.location.replace(`/${locale}${dest}${search}${hash}`);
   }, [path]);
 
   return (
     <main className="flex min-h-svh items-center justify-center gap-4 text-sm text-muted">
-      <a className="hover:text-chrome" href={`/es${path || "/taller"}`}>
+      <a className="hover:text-chrome" href={`/es${path || ""}`}>
         Español
       </a>
       <span aria-hidden>·</span>
-      <a className="hover:text-chrome" href={`/en${path || "/taller"}`}>
+      <a className="hover:text-chrome" href={`/en${path || ""}`}>
         English
       </a>
     </main>
