@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const CALENDLY_URL = "https://calendly.com/admin-twoffactor";
 
@@ -72,7 +73,8 @@ function IconArrow({ className = "" }: { className?: string }) {
   );
 }
 
-export function ContactModal() {
+export function ContactModal({ triggerless = false }: { triggerless?: boolean }) {
+  const { t, lang } = useI18n();
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const pathname = usePathname();
@@ -123,18 +125,20 @@ export function ContactModal() {
     setVisible(false);
     setTimeout(() => {
       setOpen(false);
-      if (pathname === "/hablemos") router.push("/");
+      if (pathname.endsWith("/hablemos")) router.push(`/${lang}`);
     }, 220);
   }
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="shrink-0 rounded-full border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-medium text-cyan-bright transition-all hover:bg-cyan/20 hover:ring-glow"
-      >
-        Hablemos
-      </button>
+      {!triggerless && (
+        <button
+          onClick={() => setOpen(true)}
+          className="shrink-0 rounded-full border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-medium text-cyan-bright transition-all hover:bg-cyan/20 hover:ring-glow"
+        >
+          {t("Hablemos")}
+        </button>
+      )}
 
       {open && (
         <div
@@ -169,15 +173,15 @@ export function ContactModal() {
             <div className="flex items-start justify-between p-6 pb-4">
               <div>
                 <h2 id="modal-title" className="text-lg font-semibold text-chrome">
-                  Conectemos
+                  {t("Conectemos")}
                 </h2>
                 <p className="mt-0.5 text-sm text-muted">
-                  Elige cómo prefieres contactarnos
+                  {t("Elige cómo prefieres contactarnos")}
                 </p>
               </div>
               <button
                 onClick={close}
-                aria-label="Cerrar"
+                aria-label={t("Cerrar")}
                 className="ml-4 rounded-lg p-1.5 text-muted-dim transition-colors hover:bg-surface hover:text-chrome"
               >
                 <IconClose />
@@ -194,7 +198,7 @@ export function ContactModal() {
                     <IconWhatsApp className="h-4 w-4" />
                   </span>
                   <p className="text-xs font-medium uppercase tracking-widest text-muted">
-                    WhatsApp · Respuesta en minutos
+                    {t("WhatsApp · Respuesta en minutos")}
                   </p>
                 </div>
                 {FOUNDERS.map((f) => (
@@ -207,15 +211,15 @@ export function ContactModal() {
                     </span>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-chrome">{f.name}</p>
-                      <p className="text-xs text-muted">{f.role}</p>
+                      <p className="text-xs text-muted">{t(f.role)}</p>
                     </div>
                     <div className="flex shrink-0 flex-row items-center gap-1">
                       <a
-                        href={`https://wa.me/${f.wa}?text=${encodeURIComponent(`Hola ${f.firstName}, me gustaría contactarme contigo para conocer más sobre los servicios de TwoFFactor.`)}`}
+                        href={`https://wa.me/${f.wa}?text=${encodeURIComponent(t("Hola {name}, me gustaría contactarme contigo para conocer más sobre los servicios de TwoFFactor.", { name: f.firstName }))}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={close}
-                        aria-label={`WhatsApp de ${f.name}`}
+                        aria-label={t("WhatsApp de {name}", { name: f.name })}
                         className="flex h-8 w-8 items-center justify-center rounded-lg text-green-400 transition-all duration-150 hover:bg-green-500/15 hover:text-green-300"
                       >
                         <IconWhatsApp />
@@ -223,7 +227,7 @@ export function ContactModal() {
                       <a
                         href={`mailto:${f.email}`}
                         onClick={close}
-                        aria-label={`Email de ${f.name}`}
+                        aria-label={t("Correo de {name}", { name: f.name })}
                         className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-dim transition-all duration-150 hover:bg-surface hover:text-cyan-bright"
                       >
                         <IconMail />
@@ -245,8 +249,8 @@ export function ContactModal() {
                   <IconCalendar />
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-chrome">Agenda una reunión</p>
-                  <p className="text-sm text-muted">Selecciona día y hora · Videollamada</p>
+                  <p className="font-medium text-chrome">{t("Agenda una reunión")}</p>
+                  <p className="text-sm text-muted">{t("Selecciona día y hora · Videollamada")}</p>
                 </div>
                 <span className="text-muted-dim">
                   <IconArrow className="group-hover/card:translate-x-1" />
@@ -255,7 +259,7 @@ export function ContactModal() {
 
               {/* Email footer */}
               <p className="pt-1 text-center text-xs text-muted-dim">
-                ¿Prefieres correo?{" "}
+                {t("¿Prefieres correo?")}{" "}
                 <a
                   href="mailto:admin@twoffactor.com"
                   className="text-muted transition-colors hover:text-chrome"

@@ -21,9 +21,23 @@
   --color-muted: #94a3b8;
   --color-muted-dim: #64748b;
 
-  /* Fuentes (Geist provisto por next/font) */
+  /* Fuentes Laboratorio (Geist) */
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Fuentes Taller */
+  --font-gabarito: var(--font-gabarito-nf), system-ui, sans-serif;
+  --font-ubuntu-mono: var(--font-ubuntu-mono-nf), ui-monospace, monospace;
+
+  /* Paleta Taller */
+  --color-tinta: #0B0C10;
+  --color-cobre: #B87333;
+  --color-cobre-deep: #8C5524;
+  --color-acero: #436C84;
+  --color-pizarra: #5B6670;
+  --color-crema: #F3EEE4;
+  --color-hueso: #FAF8F4;
+  --color-fosforo: #00FF41;
 
   /* Sombra de resplandor */
   --shadow-glow: 0 0 40px -8px var(--color-cyan);
@@ -741,3 +755,76 @@ body {
     filter: none !important;
   }
 }
+
+/* ============================================================
+   BOTONES STEAMPUNK — selector de modo (Laboratorio / Taller)
+   Paleta latón/cobre: amber-800 → amber-400
+   ============================================================ */
+
+.steampunk-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Remaches en las cuatro esquinas */
+.steampunk-rivet {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.steampunk-rivet--tl { top: -2px; left: -2px; }
+.steampunk-rivet--tr { top: -2px; right: -2px; }
+.steampunk-rivet--bl { bottom: -2px; left: -2px; }
+.steampunk-rivet--br { bottom: -2px; right: -2px; }
+
+/* Luz indicadora */
+.steampunk-lamp {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+/* ── Modo Taller (steampunk, cobre latón) ── */
+.steampunk-btn--inactive {
+  color: #78716c;
+  background: linear-gradient(135deg, #0c0a09 0%, #1c1917 50%, #0c0a09 100%);
+  border: 1px solid #3d2f1a;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.03),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.steampunk-btn--inactive:hover {
+  color: #b87333;
+  border-color: #6b3d1c;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    inset 0 -1px 0 rgba(0,0,0,0.3),
+    0 0 10px -2px rgba(184,115,51,0.35);
+}
+.steampunk-btn--inactive .steampunk-rivet {
+  background: radial-gradient(circle at 35% 35%, #5c4030, #1c1917);
+  border: 1px solid #3d2f1a;
+}
+.steampunk-lamp--off {
+  background: #3d2f1a;
+  box-shadow: none;
+}
+

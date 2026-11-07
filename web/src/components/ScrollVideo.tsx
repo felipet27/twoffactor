@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export function ScrollVideo() {
+  const { t } = useI18n();
   const wrapRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
   const capRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -34,6 +37,8 @@ export function ScrollVideo() {
       });
     };
 
+    const sticky = stickyRef.current;
+
     let raf = 0;
     const loop = () => {
       const rect = wrap.getBoundingClientRect();
@@ -44,6 +49,12 @@ export function ScrollVideo() {
         ? Math.min(1, Math.max(0, -rect.top / scrollable))
         : 0;
       setCaptions(reduce ? 0 : p);
+      // Desvanece el wrapper sticky al final para evitar superposición con la siguiente sección
+      if (sticky) {
+        const fade = p < 0.72 ? 1 : Math.max(0, 1 - (p - 0.72) / 0.28);
+        sticky.style.opacity = String(fade);
+        sticky.style.pointerEvents = fade < 0.05 ? "none" : "auto";
+      }
       raf = requestAnimationFrame(loop);
     };
 
@@ -52,8 +63,8 @@ export function ScrollVideo() {
   }, []);
 
   return (
-    <section id="top" ref={wrapRef} className="relative h-[350vh]">
-      <div className="sticky top-0 h-svh w-full overflow-hidden">
+    <section id="top" ref={wrapRef} className="relative z-0 h-[350vh]">
+      <div ref={stickyRef} className="sticky top-0 h-svh w-full overflow-hidden">
         {/* Video de fondo en autoplay */}
         <video
           src="/video_twoffactor.mp4"
@@ -78,6 +89,11 @@ export function ScrollVideo() {
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-ink/30 md:hidden"
         />
+        {/* Fundido inferior → color de fondo de la página */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent"
+        />
 
         {/* Textos controlados por scroll */}
         <div className="absolute inset-0">
@@ -89,18 +105,16 @@ export function ScrollVideo() {
                 className="absolute bottom-0 left-0 will-change-[opacity,transform]"
               >
                 <p className="text-sm uppercase tracking-[0.35em] text-cyan-bright">
-                  Software a la medida
+                  {t("Software a la medida")}
                 </p>
                 <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-chrome sm:text-5xl lg:text-6xl">
-                  Tu negocio no puede detenerse.{" "}
-                  <span className="text-chrome/60">Tu software tampoco.</span>
+                  {t("Tu negocio no puede detenerse.")}{" "}
+                  <span className="text-chrome/60">{t("Tu software tampoco.")}</span>
                 </h2>
                 <p className="mt-6 max-w-xl text-base leading-relaxed text-chrome/65 sm:text-lg">
-                  Deja de adaptar tu empresa a sistemas genéricos que te hacen
-                  perder dinero. Construimos la solución exacta a tu operación y
-                  garantizamos su funcionamiento al 100%.{" "}
+                  {t("Deja de adaptar tu empresa a sistemas genéricos que te hacen perder dinero. Construimos la solución exacta a tu operación y garantizamos su funcionamiento al 100%.")}{" "}
                   <span className="font-semibold text-chrome">
-                    Vendemos valor, no horas de código.
+                    {t("Vendemos valor, no horas de código.")}
                   </span>
                 </p>
                 <div className="mt-8">
@@ -110,7 +124,7 @@ export function ScrollVideo() {
                     rel="noopener noreferrer"
                     className="inline-block rounded-full bg-gradient-to-r from-cyan to-blue px-7 py-3 font-semibold text-ink transition-transform hover:scale-[1.03] hover:ring-glow"
                   >
-                    Agenda tu sesión Discovery →
+                    {t("Agenda tu sesión Discovery →")}
                   </a>
                 </div>
               </div>
@@ -121,18 +135,16 @@ export function ScrollVideo() {
                 className="absolute bottom-0 left-0 opacity-0 will-change-[opacity,transform]"
               >
                 <p className="text-sm uppercase tracking-[0.35em] text-cyan-bright">
-                  Cómo trabajamos
+                  {t("Cómo trabajamos")}
                 </p>
                 <h2 className="mt-4 max-w-2xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-chrome sm:text-5xl">
-                  Construimos tu plataforma.{" "}
-                  <span className="text-gradient">Garantizamos tu operación.</span>
+                  {t("Construimos tu plataforma.")}{" "}
+                  <span className="text-gradient">{t("Garantizamos tu operación.")}</span>
                 </h2>
                 <p className="mt-4 max-w-xl text-base text-chrome/65 sm:text-lg">
-                  No somos una agencia tradicional que entrega un código y
-                  desaparece. Entendemos tu problema, construimos la solución
-                  exacta y sostenemos la operación crítica de tu negocio{" "}
+                  {t("No somos una agencia tradicional que entrega un código y desaparece. Entendemos tu problema, construimos la solución exacta y sostenemos la operación crítica de tu negocio")}{" "}
                   <span className="font-semibold text-chrome">
-                    con la misma dedicación del día uno.
+                    {t("con la misma dedicación del día uno.")}
                   </span>
                 </p>
                 <div className="mt-7 max-w-xl space-y-3">
@@ -144,7 +156,7 @@ export function ScrollVideo() {
                     <div key={n} className="flex gap-4">
                       <span className="font-mono text-xs text-cyan-bright">{n}</span>
                       <p className="text-sm text-chrome/65 sm:text-base">
-                        <span className="font-semibold text-chrome">{name}</span>{" "}— {desc}
+                        <span className="font-semibold text-chrome">{t(name)}</span>{" "}— {t(desc)}
                       </p>
                     </div>
                   ))}
@@ -157,11 +169,11 @@ export function ScrollVideo() {
                 className="absolute bottom-0 left-0 opacity-0 will-change-[opacity,transform]"
               >
                 <p className="text-sm uppercase tracking-[0.35em] text-cyan-bright">
-                  Garantía y Confianza
+                  {t("Garantía y Confianza")}
                 </p>
                 <h2 className="mt-4 max-w-2xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-chrome sm:text-5xl">
-                  No pedimos que nos crean.{" "}
-                  <span className="text-gradient">Lo dejamos por escrito.</span>
+                  {t("No pedimos que nos crean.")}{" "}
+                  <span className="text-gradient">{t("Lo dejamos por escrito.")}</span>
                 </h2>
                 <ul className="mt-6 max-w-lg space-y-3">
                   {[
@@ -175,13 +187,12 @@ export function ScrollVideo() {
                           <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </span>
-                      <span className="text-sm text-chrome sm:text-base">{c}</span>
+                      <span className="text-sm text-chrome sm:text-base">{t(c)}</span>
                     </li>
                   ))}
                 </ul>
                 <p className="mt-8 text-xs text-chrome/40">
-                  Cuéntanos qué te está costando hoy tu proceso actual. Te
-                  respondemos nosotros, no un formulario.
+                  {t("Cuéntanos qué te está costando hoy tu proceso actual. Te respondemos nosotros, no un formulario.")}
                 </p>
               </div>
             </div>
