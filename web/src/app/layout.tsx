@@ -4,12 +4,12 @@ import { geistMono, geistSans, gabarito, ubuntuMono } from "./fonts";
 import { I18nProvider } from "@/i18n/I18nProvider";
 
 export const metadata: Metadata = {
-  title: "TwoFFactor - Fair and Fast",
+  title: "TwoFFactor · Software a la medida",
   description:
-    "TwoFFactor: software a la medida para negocios que no pueden detenerse. Hecho en Colombia.",
+    "Software a la medida para negocios que no pueden detenerse. Hecho en Colombia.",
   keywords: ["TwoFFactor", "software a la medida", "Colombia", "desarrollo de software"],
   openGraph: {
-    title: "TwoFFactor - Fair and Fast",
+    title: "TwoFFactor · Software a la medida",
     description: "Software a la medida para negocios que no pueden detenerse.",
     type: "website",
     url: "https://twoffactor.com",
