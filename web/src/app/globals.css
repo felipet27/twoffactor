@@ -800,6 +800,24 @@ body {
   transition: all 0.3s ease;
 }
 
+/* ============================================================
+   TALLER PAGE — Ajustes responsive
+   ============================================================ */
+
+/*
+  En pantallas ≤ 640px el nav completo (3 enlaces + botón) se rompe
+  en 2+ filas, haciendo que el header absoluto supere los 150px del
+  paddingTop del hero y se superponga al texto. Ocultando los 3
+  enlaces de texto el header se mantiene en una sola fila (logo +
+  botón "Hablemos") con ~84px de alto, dejando margen suficiente.
+  Los enlaces también están en el footer para navegación.
+*/
+@media (max-width: 640px) {
+  .taller-nav-link {
+    display: none !important;
+  }
+}
+
 /* ── Modo Taller (steampunk, cobre latón) ── */
 .steampunk-btn--inactive {
   color: #78716c;

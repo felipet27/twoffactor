@@ -3,6 +3,7 @@ import Link from "next/link";
 import { TallerContactModal } from "@/components/TallerContactModal";
 import { RobotsGreeting } from "@/components/RobotsGreeting";
 import { TallerHablemosBtn } from "@/components/TallerHablemosBtn";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import felipePhoto from "../../public/images/felipe-tangarife.jpg";
 import juanPabloPhoto from "../../public/images/juan-pablo-hurtado.jpg";
 
@@ -97,6 +98,7 @@ export default function TallerPage() {
     <div style={{ position: "relative", fontFamily: "'Gabarito', sans-serif", color: "#0B0C10", background: "#FAF8F4" }}>
       <TallerContactModal />
       <RobotsGreeting />
+      <ScrollToTop />
 
       {/* ─────────────────────── NAVEGACIÓN ──────────────────── */}
       <header style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 5 }}>
@@ -105,9 +107,9 @@ export default function TallerPage() {
             <TallerLogo />
           </Link>
           <nav aria-label="Taller" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 24px", fontSize: 16 }}>
-            <a href="#pilares" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Cómo trabajamos</a>
-            <a href="#para-quien" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Para quién</a>
-            <a href="#nosotros" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Quiénes somos</a>
+            <a href="#pilares" className="taller-nav-link" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Cómo trabajamos</a>
+            <a href="#para-quien" className="taller-nav-link" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Para quién</a>
+            <a href="#nosotros" className="taller-nav-link" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Quiénes somos</a>
             <TallerHablemosBtn />
           </nav>
         </div>
@@ -238,7 +240,7 @@ export default function TallerPage() {
             <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "#5B6670" }}>Cada F de TwoFFactor es uno de nosotros. Somos los que te atienden en la primera reunión, los que construyen tu sistema y los que contestan cuando algo pasa.</p>
             <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 14, color: "#436C84" }}>&gt; sin intermediarios_</div>
           </div>
-          <div style={{ flex: "999 1 560px", minWidth: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, 286px)", justifyContent: "center", gap: 20, alignSelf: "center" }}>
+          <div style={{ flex: "999 1 560px", minWidth: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(286px, 100%), 1fr))", justifyContent: "center", gap: 20, alignSelf: "center" }}>
             <figure style={{ margin: 0, display: "flex", flexDirection: "column", gap: 14, background: "#FFFFFF", border: "1px solid #E2DED6", borderRadius: 12, padding: 14 }}>
               <div style={{ position: "relative", width: 256, maxWidth: "100%", aspectRatio: "4/5", borderRadius: 8, overflow: "hidden" }}>
                 <Image src={felipePhoto} alt="Felipe Tangarife, cofundador de TwoFFactor" fill sizes="256px" style={{ objectFit: "cover" }} placeholder="blur" />
