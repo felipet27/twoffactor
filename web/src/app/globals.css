@@ -834,6 +834,35 @@ body {
   }
 }
 
+/*
+  Acordeón de la página principal (TallerAcordeon): en pantallas grandes
+  todo se ve y el título no es interactivo; en celular el cuerpo se pliega
+  y aparece el ícono + / −.
+*/
+.taller-acc-icono {
+  display: none;
+}
+.taller-acc-btn {
+  cursor: default;
+}
+@media (max-width: 640px) {
+  .taller-acc-icono {
+    display: inline-flex;
+  }
+  .taller-acc-btn {
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .taller-acc-btn:focus-visible {
+    outline: 2px solid #B87333;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+  .taller-acc-cuerpo[data-abierto="false"] {
+    display: none !important;
+  }
+}
+
 /* En la página principal la barra de progreso va en cobre, no en cian. */
 body:has(.taller-page) .scroll-progress {
   background-image: none;

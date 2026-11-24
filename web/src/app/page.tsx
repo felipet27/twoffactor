@@ -4,6 +4,9 @@ import { TallerContactModal } from "@/components/TallerContactModal";
 import { RobotsGreeting } from "@/components/RobotsGreeting";
 import { TallerHablemosBtn } from "@/components/TallerHablemosBtn";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { TallerAcordeon } from "@/components/TallerAcordeon";
+import { TallerWhatsAppFlotante } from "@/components/TallerWhatsApp";
+import { IconoWhatsApp, enlaceWhatsApp } from "@/components/IconoWhatsApp";
 import { TallerMobileMenu } from "@/components/TallerMobileMenu";
 import felipePhoto from "../../public/images/felipe-tangarife.jpg";
 import juanPabloPhoto from "../../public/images/juan-pablo-hurtado.jpg";
@@ -101,8 +104,8 @@ const MONO = "'Ubuntu Mono', monospace";
 const LINE_DARK = "1px solid rgba(250,248,244,0.16)";
 const LINE_LIGHT = "1px solid rgba(11,12,16,0.14)";
 
-const eyebrowDark: React.CSSProperties = { fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#A9ABB1" };
-const eyebrowLight: React.CSSProperties = { fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#5B6670" };
+const eyebrowDark: React.CSSProperties = { fontFamily: MONO, fontSize: 14, letterSpacing: 1.5, color: "#A9ABB1" };
+const eyebrowLight: React.CSSProperties = { fontFamily: MONO, fontSize: 14, letterSpacing: 1.5, color: "#5B6670" };
 const h2Light: React.CSSProperties = { margin: 0, fontWeight: 700, fontSize: "clamp(26px, 3.2vw, 36px)", lineHeight: 1.15, letterSpacing: -0.5, color: "#0B0C10" };
 const container: React.CSSProperties = { maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box" };
 const primaryBtn: React.CSSProperties = { background: "#8C5524", color: "#FFFFFF", textDecoration: "none", fontWeight: 600, fontSize: 16, padding: "0 22px", minHeight: 48, borderRadius: 8, display: "inline-flex", alignItems: "center" };
@@ -198,7 +201,7 @@ const GARANTIAS = [
   { tag: "01 · DISPONIBILIDAD", value: "99,5%", text: "Tu sistema funcionando el 99,5% del mes", chart: <GraficoDisponibilidad /> },
   { tag: "02 · RESPUESTA", value: "40 min", text: "Si algo grave falla, te respondemos en un máximo de 40 minutos", chart: <GraficoRespuesta /> },
   { tag: "03 · TUS DATOS", value: "15 min", text: "Tu información se respalda sola, todo el tiempo. Si pasa lo peor, la recuperamos con máximo 15 minutos de diferencia", chart: <GraficoDatos /> },
-  { tag: "04 · LIBERTAD", value: "0", text: "Sin permanencia: te quedas porque funciona, no por contrato", chart: <GraficoLibertad /> },
+  { tag: "04 · LIBERTAD", value: "0 meses", text: "de permanencia: te quedas porque funciona, no por contrato", chart: <GraficoLibertad /> },
 ];
 
 const DIFERENCIAS = [
@@ -254,6 +257,7 @@ export default function TallerPage() {
       <TallerContactModal />
       <RobotsGreeting />
       <ScrollToTop />
+      <TallerWhatsAppFlotante />
 
       {/* ─────────────────────── NAVEGACIÓN ──────────────────── */}
       <header style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 5 }}>
@@ -321,13 +325,19 @@ export default function TallerPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", borderTop: LINE_DARK, borderLeft: LINE_DARK }}>
               {PASOS.map((p) => (
-                <div key={p.num} style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
-                  <div style={{ ...eyebrowDark, fontSize: 12 }}>{p.num} · {p.period}</div>
-                  <h3 style={{ margin: 0, fontWeight: 700, fontSize: 28, color: "#FAF8F4" }}>{p.name}</h3>
+                <TallerAcordeon
+                  key={p.num}
+                  style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px" }}
+                  etiqueta={`${p.num} · ${p.period}`}
+                  etiquetaStyle={{ ...eyebrowDark, fontSize: 13 }}
+                  titulo={p.name}
+                  tituloStyle={{ fontWeight: 700, fontSize: 28, color: "#FAF8F4" }}
+                  colorIcono="#B87333"
+                >
                   <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8, fontSize: 16, lineHeight: 1.4, color: "#D7D8DC" }}>
                     {p.items.map((item) => <li key={item}>{item}</li>)}
                   </ul>
-                </div>
+                </TallerAcordeon>
               ))}
             </div>
             <div style={{ fontFamily: MONO, fontSize: 16, color: "#B87333" }}>{">"} cada paso se aprueba contigo antes de seguir_</div>
@@ -354,7 +364,7 @@ export default function TallerPage() {
             <div style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
               {GARANTIAS.map((g) => (
                 <div key={g.tag} style={{ padding: "22px 20px 20px", borderRight: LINE_DARK, borderBottom: LINE_DARK, display: "flex", flexDirection: "column", gap: 8 }}>
-                  <div style={{ ...eyebrowDark, fontSize: 12 }}>{g.tag}</div>
+                  <div style={{ ...eyebrowDark, fontSize: 13 }}>{g.tag}</div>
                   <div style={{ fontWeight: 700, fontSize: 56, lineHeight: 0.95, letterSpacing: -1.5, color: "#B87333" }}>{g.value}</div>
                   <div style={{ fontSize: 16, lineHeight: 1.35, fontWeight: 500, color: "#FAF8F4" }}>{g.text}</div>
                   <div style={{ marginTop: "auto", paddingTop: 6 }}>{g.chart}</div>
@@ -375,7 +385,7 @@ export default function TallerPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", borderTop: LINE_LIGHT, borderLeft: LINE_LIGHT }}>
             {DIFERENCIAS.map((d, i) => (
               <div key={d} style={{ borderRight: LINE_LIGHT, borderBottom: LINE_LIGHT, padding: 24, display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: 1.5, color: "#8C5524" }}>{String(i + 1).padStart(2, "0")}</div>
+                <div style={{ fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#8C5524" }}>{String(i + 1).padStart(2, "0")}</div>
                 <div style={{ fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: "#0B0C10" }}>{d}</div>
               </div>
             ))}
@@ -393,17 +403,29 @@ export default function TallerPage() {
           <h2 style={h2Light}>Negocios que no pueden detenerse</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 12 }}>
             {SECTORES.map((c) => (
-              <div key={c.sector} style={lightCard}>
-                <div style={{ ...eyebrowLight, fontSize: 12 }}>{c.sector}</div>
-                <h3 style={{ margin: 0, fontWeight: 700, fontSize: 26, lineHeight: 1.15 }}>{c.q}</h3>
+              <TallerAcordeon
+                key={c.sector}
+                style={lightCard}
+                etiqueta={c.sector}
+                etiquetaStyle={{ ...eyebrowLight, fontSize: 13 }}
+                titulo={c.q}
+                tituloStyle={{ fontWeight: 700, fontSize: 26, lineHeight: 1.15 }}
+              >
                 <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#5B6670" }}>{c.desc}</p>
-              </div>
+              </TallerAcordeon>
             ))}
             <div style={{ ...lightCard, background: "#0B0C10" }}>
-              <div style={{ ...eyebrowDark, fontSize: 12 }}>TU SECTOR</div>
+              <div style={{ ...eyebrowDark, fontSize: 13 }}>TU SECTOR</div>
               <h3 style={{ margin: 0, fontWeight: 700, fontSize: 26, lineHeight: 1.15, color: "#FAF8F4" }}>¿No está tu sector aquí?</h3>
               <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#D7D8DC" }}>Pedidos, citas, inventario, caja, reportes o páginas web: si tu negocio lo necesita y no puede parar, lo construimos. Cuéntanos.</p>
-              <TallerHablemosBtn style={{ marginTop: "auto", alignSelf: "flex-start", fontSize: 14, minHeight: 44, padding: "0 18px" }} />
+              <a
+                href={enlaceWhatsApp("573113627287", "Hola Juan Pablo, mi negocio es de otro sector y quiero saber si me pueden ayudar.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ ...primaryBtn, marginTop: "auto", alignSelf: "flex-start", fontSize: 15, minHeight: 44, padding: "0 18px", gap: 8 }}
+              >
+                <IconoWhatsApp size={18} /> Escríbenos por WhatsApp
+              </a>
             </div>
           </div>
         </div>
@@ -416,15 +438,20 @@ export default function TallerPage() {
           <h2 style={h2Light}>Tú eliges cómo contratarnos</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 12 }}>
             {FORMAS.map((f) => (
-              <div key={f.num} style={lightCard}>
-                <div style={{ ...eyebrowLight, fontSize: 12 }}>{f.num}</div>
-                <h3 style={{ margin: 0, fontWeight: 700, fontSize: 26, lineHeight: 1.15 }}>{f.name}</h3>
-                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#5B6670" }}>{f.ideal}</p>
+              <TallerAcordeon
+                key={f.num}
+                style={lightCard}
+                etiqueta={f.num}
+                etiquetaStyle={{ ...eyebrowLight, fontSize: 13 }}
+                titulo={f.name}
+                tituloStyle={{ fontWeight: 700, fontSize: 26, lineHeight: 1.15 }}
+                resumen={<p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#5B6670" }}>{f.ideal}</p>}
+                pie={<div style={{ fontFamily: MONO, fontSize: 14, letterSpacing: 1.5, color: "#8C5524" }}>{f.pago}</div>}
+              >
                 <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8, fontSize: 16, lineHeight: 1.4, color: "#0B0C10" }}>
                   {f.items.map((item) => <li key={item}>{item}</li>)}
                 </ul>
-                <div style={{ marginTop: "auto", fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#8C5524" }}>{f.pago}</div>
-              </div>
+              </TallerAcordeon>
             ))}
           </div>
           <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#5B6670", maxWidth: 820 }}>
@@ -450,11 +477,11 @@ export default function TallerPage() {
                 </div>
                 <figcaption style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   <span style={{ fontWeight: 700, fontSize: 24, lineHeight: 1.15, color: "#0B0C10" }}>{m.name}</span>
-                  <span style={{ fontFamily: MONO, fontSize: 13, letterSpacing: 1, color: "#5B6670" }}>{m.role}</span>
+                  <span style={{ fontFamily: MONO, fontSize: 14, letterSpacing: 1, color: "#5B6670" }}>{m.role}</span>
                   <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: "#5B6670" }}>{m.bio}</p>
                   <span style={{ display: "flex", flexWrap: "wrap", gap: "4px 20px" }}>
-                    <a href={m.whatsapp} target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, color: "#8C5524", fontSize: 14, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>WhatsApp</a>
-                    <a href={m.linkedin} target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, color: "#8C5524", fontSize: 14, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>LinkedIn</a>
+                    <a href={m.whatsapp} target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, color: "#8C5524", fontSize: 15, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>WhatsApp</a>
+                    <a href={m.linkedin} target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, color: "#8C5524", fontSize: 15, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>LinkedIn</a>
                   </span>
                 </figcaption>
               </figure>
@@ -470,10 +497,17 @@ export default function TallerPage() {
           <h2 style={h2Light}>Lo que nos suelen preguntar</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))", gap: 12 }}>
             {PREGUNTAS.map((p) => (
-              <div key={p.q} style={{ ...lightCard, padding: 24, gap: 10, ...(p.destacada ? { gridColumn: "1 / -1", background: "#0B0C10" } : {}) }}>
-                <h3 style={{ margin: 0, fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: p.destacada ? "#FAF8F4" : "#0B0C10" }}>{p.q}</h3>
+              <TallerAcordeon
+                key={p.q}
+                style={{ ...lightCard, padding: 24, ...(p.destacada ? { gridColumn: "1 / -1", background: "#0B0C10" } : {}) }}
+                gap={10}
+                titulo={p.q}
+                tituloStyle={{ fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: p.destacada ? "#FAF8F4" : "#0B0C10" }}
+                colorIcono={p.destacada ? "#B87333" : "#8C5524"}
+                abiertoInicial={p.destacada}
+              >
                 <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: p.destacada ? "#D7D8DC" : "#5B6670", maxWidth: 860 }}>{p.a}</p>
-              </div>
+              </TallerAcordeon>
             ))}
           </div>
         </div>
@@ -495,7 +529,7 @@ export default function TallerPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", borderTop: LINE_DARK, borderLeft: LINE_DARK }}>
               <div style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ ...eyebrowDark, fontSize: 12 }}>NAVEGA</div>
+                <div style={{ ...eyebrowDark, fontSize: 13 }}>NAVEGA</div>
                 <a href="#pilares" style={footerLink}>Cómo trabajamos</a>
                 <a href="#para-quien" style={footerLink}>Para quién</a>
                 <a href="#contratar" style={footerLink}>Cómo contratar</a>
@@ -503,13 +537,13 @@ export default function TallerPage() {
                 <a href="#nosotros" style={footerLink}>Quiénes somos</a>
               </div>
               <div style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ ...eyebrowDark, fontSize: 12 }}>CONTACTO</div>
+                <div style={{ ...eyebrowDark, fontSize: 13 }}>CONTACTO</div>
                 <a href={CALENDLY} target="_blank" rel="noopener noreferrer" style={footerLink}>Agenda una reunión</a>
                 <a href="mailto:admin@twoffactor.com" style={footerLink}>admin@twoffactor.com</a>
                 <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" style={footerLink}>+57 311 362 7287</a>
               </div>
               <div style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ ...eyebrowDark, fontSize: 12 }}>SÍGUENOS</div>
+                <div style={{ ...eyebrowDark, fontSize: 13 }}>SÍGUENOS</div>
                 <a href="https://www.linkedin.com/company/146698937/" target="_blank" rel="noopener noreferrer" style={footerLink}>LinkedIn</a>
                 <a href="https://www.instagram.com/twoffactor/" target="_blank" rel="noopener noreferrer" style={footerLink}>Instagram</a>
               </div>
