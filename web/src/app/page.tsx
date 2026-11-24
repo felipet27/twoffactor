@@ -119,8 +119,8 @@ function AgendaBtn({ style }: { style?: React.CSSProperties }) {
 
 const PASOS = [
   { num: "01", period: "SEMANA 1", name: "Entender", items: ["Reuniones para entender tu negocio", "Mapa de cómo trabajas hoy", "Prototipo que puedes probar y comentar", "Alcance y precio cerrados"] },
-  { num: "02", period: "SEMANAS 2 A 5", name: "Construir", items: ["Entregas por partes", "Avances visibles cada semana", "Pruebas con tu equipo", "Prueba con tus datos reales antes de lanzar"] },
-  { num: "03", period: "CADA DÍA", name: "Operar", items: ["Tu sistema alojado y cuidado por nosotros", "Copias de seguridad diarias", "Soporte de lunes a viernes", "Si algo grave falla, respondemos en 40 minutos"] },
+  { num: "02", period: "SEMANAS 2 A 5", name: "Construir", items: ["Entregas por partes", "Avances visibles cada semana", "Tu equipo participa en cada entrega", "Prueba con tus datos reales antes de lanzar"] },
+  { num: "03", period: "CADA DÍA", name: "Operar", items: ["Tu sistema alojado y cuidado por nosotros", "Copias de seguridad automáticas", "Soporte de lunes a viernes", "Respuesta rápida ante fallas graves"] },
   { num: "04", period: "CADA MES", name: "Mejorar", items: ["Horas de mejora incluidas", "Reunión mensual para revisar cómo va el negocio", "Nuevas funciones", "Informe mensual"] },
 ] as const;
 
@@ -197,7 +197,7 @@ function GraficoLibertad() {
 const GARANTIAS = [
   { tag: "01 · DISPONIBILIDAD", value: "99,5%", text: "Tu sistema funcionando el 99,5% del mes", chart: <GraficoDisponibilidad /> },
   { tag: "02 · RESPUESTA", value: "40 min", text: "Si algo grave falla, te respondemos en un máximo de 40 minutos", chart: <GraficoRespuesta /> },
-  { tag: "03 · TUS DATOS", value: "15 min", text: "Si pasa lo peor, como máximo se pierden 15 minutos de información", chart: <GraficoDatos /> },
+  { tag: "03 · TUS DATOS", value: "15 min", text: "Tu información se respalda sola, todo el tiempo. Si pasa lo peor, la recuperamos con máximo 15 minutos de diferencia", chart: <GraficoDatos /> },
   { tag: "04 · LIBERTAD", value: "0", text: "Sin permanencia: te quedas porque funciona, no por contrato", chart: <GraficoLibertad /> },
 ];
 
@@ -218,15 +218,15 @@ const SECTORES = [
 const FORMAS = [
   { num: "FORMA 01", name: "Proyecto cerrado", ideal: "Ideal si ya sabes qué necesitas.", items: ["Alcance y fecha cerrados por escrito", "Entregas por partes", "Cierre con acta de recibo"], pago: "PAGO · POR HITOS" },
   { num: "FORMA 02", name: "Bolsa de horas", ideal: "Ideal si el alcance puede cambiar sobre la marcha.", items: ["Un bloque de horas para construir o ajustar", "Reporte de en qué se usó cada hora"], pago: "PAGO · BLOQUE PREPAGADO" },
-  { num: "FORMA 03", name: "Administración mensual", ideal: "Ideal si quieres que alguien sostenga tu sistema en el tiempo.", items: ["Nube y copias de seguridad", "Soporte de lunes a viernes", "Horas de mejora e informe mensual"], pago: "PAGO · MENSUALIDAD, SIN PERMANENCIA" },
+  { num: "FORMA 03", name: "Administración mensual", ideal: "Ideal si quieres que alguien sostenga tu sistema en el tiempo.", items: ["Nube y copias de seguridad automáticas", "Soporte de lunes a viernes", "Horas de mejora e informe mensual"], pago: "PAGO · MENSUALIDAD, SIN PERMANENCIA" },
 ] as const;
 
 const PREGUNTAS = [
-  { q: "¿Qué pasa cuando el sistema ya está listo?", a: "Seguimos contigo. Con la administración mensual alojamos y cuidamos tu sistema, hacemos copias de seguridad cada día, te damos soporte de lunes a viernes y cada mes nos reunimos para mejorarlo. Sin permanencia: te quedas porque funciona.", destacada: true },
+  { q: "¿Qué pasa cuando el sistema ya está listo?", a: "Seguimos contigo. Con la administración mensual alojamos y cuidamos tu sistema, respaldamos tu información automáticamente, te damos soporte de lunes a viernes y cada mes nos reunimos para mejorarlo. Y puedes cancelar cuando quieras.", destacada: true },
   { q: "¿Cuánto cuesta?", destacada: false, a: "Depende del alcance. Después de la primera reunión te damos alcance y precio cerrados, por escrito." },
-  { q: "¿Cuánto tarda?", destacada: false, a: "La primera semana la usamos para entender tu negocio. Entre la semana 2 y la 5 construimos, con avances visibles cada semana. El plazo exacto depende del alcance." },
-  { q: "¿Y si algo falla?", destacada: false, a: "Hacemos copias de seguridad diarias y damos soporte de lunes a viernes. Ante una falla crítica respondemos en un máximo de 40 minutos." },
-  { q: "¿Necesito saber de tecnología?", a: "No. Te mostramos un prototipo antes de construir y lo probamos contigo antes de lanzarlo.", destacada: false },
+  { q: "¿Cuánto tarda?", destacada: false, a: "La primera semana la usamos para entender tu negocio. Entre la semana 2 y la 5 construimos, con avances visibles cada semana. El plazo exacto queda definido en la semana 1." },
+  { q: "¿Y si algo falla?", destacada: false, a: "Lo atendemos nosotros mismos, sin intermediarios. Ante una falla grave te respondemos en un máximo de 40 minutos." },
+  { q: "¿Necesito saber de tecnología?", a: "No. Te mostramos un prototipo para que veas cómo va a quedar, y lo probamos contigo antes de lanzarlo.", destacada: false },
 ] as const;
 
 const EQUIPO = [
@@ -234,7 +234,7 @@ const EQUIPO = [
     name: "Felipe Tangarife",
     role: "COFUNDADOR · PRODUCTO Y EXPERIENCIA",
     photo: felipePhoto,
-    bio: "Se sienta contigo a entender cómo trabaja tu negocio y lo convierte en pantallas claras y fáciles de usar, para que tu equipo adopte el sistema desde el primer día.",
+    bio: "Te escucha, entiende tu día a día y lo convierte en pantallas claras y fáciles de usar, para que tu equipo adopte el sistema desde el primer día.",
     whatsapp: "https://wa.me/573173780801",
     linkedin: "https://www.linkedin.com/in/felipetangarife7/",
   },
@@ -242,7 +242,7 @@ const EQUIPO = [
     name: "Juan Pablo Hurtado",
     role: "COFUNDADOR · ARQUITECTURA Y SEGURIDAD",
     photo: juanPabloPhoto,
-    bio: "Se encarga de que tu sistema no se caiga, de que tus datos estén respaldados y protegidos, y de que todo siga funcionando a medida que tu negocio crece.",
+    bio: "Se encarga de que tu sistema no se caiga, de que tus datos estén respaldados y protegidos, y de que todo responda bien mientras tu negocio crece.",
     whatsapp: "https://wa.me/573113627287",
     linkedin: "https://www.linkedin.com/in/juanpablohz/",
   },
@@ -279,14 +279,14 @@ export default function TallerPage() {
             <div style={{ flex: "999 1 560px", minWidth: 0, display: "flex", flexDirection: "column", gap: 22 }}>
               <div style={eyebrowDark}>SOFTWARE A LA MEDIDA · HECHO EN COLOMBIA</div>
               <h1 style={{ margin: 0, fontFamily: MONO, fontWeight: 400, fontSize: "clamp(34px, 4.2vw, 54px)", lineHeight: 1.05, letterSpacing: -1, color: "#FAF8F4" }}>
-                Software a la medida<br />para tu negocio.<br />Funcionando en semanas_
+                Software a la medida<br />para tu negocio.<br />En marcha en pocas semanas,<br />creciendo contigo_
               </h1>
               <p style={{ margin: 0, fontSize: 20, lineHeight: 1.5, color: "#D7D8DC", maxWidth: 640 }}>
-                Convertimos la forma en que ya trabaja tu negocio (pedidos, citas, inventario, caja) en un sistema propio, lo ponemos a funcionar en semanas y nos quedamos cuidándolo cada mes.
+                Convertimos la forma en que ya trabajas (pedidos, citas, inventario, caja) en un sistema propio, y después de lanzarlo nos quedamos cuidándolo cada mes.
               </p>
               <div style={{ fontFamily: MONO, fontSize: 18, color: "#B87333" }}>Tu negocio no puede detenerse. Tu software tampoco_</div>
               <div style={{ borderLeft: "3px solid #B87333", padding: "2px 0 2px 16px", fontSize: 18, lineHeight: 1.45, fontWeight: 500, color: "#FAF8F4", maxWidth: 600 }}>
-                Dos ingenieros que se sientan contigo, construyen tu sistema y siguen a tu lado cuando ya está funcionando.
+                Dos ingenieros que se sientan contigo, diseñan tu sistema y siguen a tu lado cuando ya está funcionando.
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 20px", marginTop: 8 }}>
                 <AgendaBtn />
@@ -407,7 +407,7 @@ export default function TallerPage() {
       <section id="contratar" style={{ background: "#FAF8F4", padding: "0 0 80px" }}>
         <div style={{ ...container, display: "flex", flexDirection: "column", gap: 28 }}>
           <div style={eyebrowLight}>CÓMO CONTRATAR</div>
-          <h2 style={h2Light}>Tú eliges cómo trabajamos</h2>
+          <h2 style={h2Light}>Tú eliges cómo contratarnos</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 12 }}>
             {FORMAS.map((f) => (
               <div key={f.num} style={lightCard}>
@@ -422,7 +422,7 @@ export default function TallerPage() {
             ))}
           </div>
           <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#5B6670", maxWidth: 820 }}>
-            Cualquier forma se puede combinar con la administración mensual, para que nunca te quedes solo con tu sistema. Después de la primera reunión te damos alcance y precio por escrito.
+            Cualquier forma se puede combinar con la administración mensual, para que nunca te quedes solo con tu sistema.
           </p>
         </div>
       </section>
@@ -432,9 +432,9 @@ export default function TallerPage() {
         <div style={{ ...container, display: "flex", flexWrap: "wrap", alignItems: "flex-start", gap: 40 }}>
           <div style={{ flex: "1 1 340px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={eyebrowLight}>QUIÉNES SOMOS</div>
-            <h2 style={h2Light}>Ingenieros que se sientan contigo</h2>
+            <h2 style={h2Light}>Las personas detrás de TwoFFactor</h2>
             <p style={{ margin: 0, fontSize: 19, lineHeight: 1.5, fontWeight: 500, color: "#0B0C10" }}>Somos dos ingenieros colombianos que diseñan, construyen y cuidan tu sistema.</p>
-            <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "#5B6670" }}>Los que te atienden en la primera reunión son los mismos que construyen tu sistema y los que contestan cuando algo pasa. No hay vendedores de por medio.</p>
+            <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "#5B6670" }}>Los que te atienden en la primera reunión son los mismos que lo programan y los que contestan cuando algo pasa. No hay vendedores de por medio.</p>
           </div>
           <div style={{ flex: "999 1 560px", minWidth: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(286px, 100%), 1fr))", justifyContent: "center", gap: 20, alignSelf: "center" }}>
             {EQUIPO.map((m) => (
@@ -483,7 +483,7 @@ export default function TallerPage() {
                 <div style={{ fontFamily: MONO, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.05, color: "#FAF8F4" }}>
                   Construyamos algo<br />que no se apague_
                 </div>
-                <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#D7D8DC", maxWidth: 560 }}>Cuéntanos cómo trabaja tu negocio hoy y te decimos qué podemos construir.</p>
+                <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#D7D8DC", maxWidth: 560 }}>Cuéntanos qué necesitas y te decimos cómo podemos ayudarte.</p>
               </div>
               <AgendaBtn />
             </div>
