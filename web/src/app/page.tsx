@@ -277,11 +277,17 @@ export default function TallerPage() {
         <div style={{ position: "relative" }}>
           <div id="inicio" style={{ ...container, paddingTop: 150, paddingBottom: 90, display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: 40 }}>
             <div style={{ flex: "999 1 560px", minWidth: 0, display: "flex", flexDirection: "column", gap: 22 }}>
-              <div style={eyebrowDark}>SOFTWARE A LA MEDIDA · HECHO EN COLOMBIA</div>
-              <h1 style={{ margin: 0, fontFamily: MONO, fontWeight: 400, fontSize: "clamp(34px, 4.2vw, 54px)", lineHeight: 1.05, letterSpacing: -1, color: "#FAF8F4" }}>
-                Software a la medida<br />para tu negocio.<br />En marcha en pocas semanas,<br />creciendo contigo_
+              <div style={eyebrowDark}><span style={{ whiteSpace: "nowrap" }}>SOFTWARE A LA MEDIDA</span> · <span style={{ whiteSpace: "nowrap" }}>HECHO EN COLOMBIA</span></div>
+              <h1 style={{ margin: 0, fontFamily: MONO, fontWeight: 400, fontSize: "clamp(34px, 4.6vw, 60px)", lineHeight: 1.08, letterSpacing: -1, color: "#FAF8F4" }}>
+                <span style={{ whiteSpace: "nowrap" }}>Sistemas hechos</span>{" "}
+                <span style={{ whiteSpace: "nowrap" }}>a la medida</span>{" "}
+                <span style={{ whiteSpace: "nowrap" }}>para tu negocio.</span>
+                <span style={{ display: "block", marginTop: "0.45em", fontSize: "0.56em", lineHeight: 1.3, letterSpacing: 0, color: "#D7D8DC" }}>
+                  <span style={{ whiteSpace: "nowrap" }}>En marcha en pocas semanas,</span>{" "}
+                  <span style={{ whiteSpace: "nowrap" }}>creciendo contigo<span style={{ color: "#B87333" }}>_</span></span>
+                </span>
               </h1>
-              <p style={{ margin: 0, fontSize: 20, lineHeight: 1.5, color: "#D7D8DC", maxWidth: 640 }}>
+              <p style={{ margin: 0, fontSize: "clamp(17px, 1.2vw + 12px, 20px)", lineHeight: 1.5, color: "#D7D8DC", maxWidth: 640 }}>
                 Convertimos la forma en que ya trabajas (pedidos, citas, inventario, caja) en un sistema propio, y después de lanzarlo nos quedamos cuidándolo cada mes.
               </p>
               <div style={{ fontFamily: MONO, fontSize: 18, color: "#B87333" }}>Tu negocio no puede detenerse. Tu software tampoco_</div>
