@@ -4,6 +4,7 @@ import { TallerContactModal } from "@/components/TallerContactModal";
 import { RobotsGreeting } from "@/components/RobotsGreeting";
 import { TallerHablemosBtn } from "@/components/TallerHablemosBtn";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { TallerMobileMenu } from "@/components/TallerMobileMenu";
 import felipePhoto from "../../public/images/felipe-tangarife.jpg";
 import juanPabloPhoto from "../../public/images/juan-pablo-hurtado.jpg";
 
@@ -13,7 +14,7 @@ function Grano() {
       aria-hidden="true"
       width="100%"
       height="100%"
-      style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.18 }}
+      style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.08 }}
     >
       <filter id="grano-taller">
         <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={3} stitchTiles="stitch" />
@@ -26,7 +27,7 @@ function Grano() {
 
 function TallerLogo() {
   return (
-    <svg viewBox="0 0 421.13 104.00" width="180" height="44.5" role="img" aria-label="TwoFFactor" style={{ display: "block" }}>
+    <svg viewBox="0 0 421.13 104.00" width="180" height="44.5" role="img" aria-label="TwoFFactor" className="taller-logo" style={{ display: "block" }}>
       <g transform="scale(1.0400)">
         <circle cx="50" cy="50" r="48" fill="#B87333" />
         <g stroke="#0B0C10" strokeWidth="3.5" strokeLinejoin="round">
@@ -93,24 +94,179 @@ function RobotsMascot({ className }: { className?: string }) {
   );
 }
 
+const CALENDLY = "https://calendly.com/admin-twoffactor";
+const WHATSAPP = "https://wa.me/573113627287";
+
+const MONO = "'Ubuntu Mono', monospace";
+const LINE_DARK = "1px solid rgba(250,248,244,0.16)";
+const LINE_LIGHT = "1px solid rgba(11,12,16,0.14)";
+
+const eyebrowDark: React.CSSProperties = { fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#A9ABB1" };
+const eyebrowLight: React.CSSProperties = { fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#5B6670" };
+const h2Light: React.CSSProperties = { margin: 0, fontWeight: 700, fontSize: "clamp(26px, 3.2vw, 36px)", lineHeight: 1.15, letterSpacing: -0.5, color: "#0B0C10" };
+const container: React.CSSProperties = { maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box" };
+const primaryBtn: React.CSSProperties = { background: "#8C5524", color: "#FFFFFF", textDecoration: "none", fontWeight: 600, fontSize: 16, padding: "0 22px", minHeight: 48, borderRadius: 8, display: "inline-flex", alignItems: "center" };
+const lightCard: React.CSSProperties = { background: "#F3EEE4", borderRadius: 4, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 12 };
+const footerLink: React.CSSProperties = { color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" };
+
+function AgendaBtn({ style }: { style?: React.CSSProperties }) {
+  return (
+    <a href={CALENDLY} target="_blank" rel="noopener noreferrer" style={{ ...primaryBtn, ...style }}>
+      Agenda una reunión
+    </a>
+  );
+}
+
+const PASOS = [
+  { num: "01", period: "SEMANA 1", name: "Entender", items: ["Reuniones para entender tu negocio", "Mapa de cómo trabajas hoy", "Prototipo que puedes probar y comentar", "Alcance y precio cerrados"] },
+  { num: "02", period: "SEMANAS 2 A 5", name: "Construir", items: ["Entregas por partes", "Avances visibles cada semana", "Pruebas con tu equipo", "Prueba con tus datos reales antes de lanzar"] },
+  { num: "03", period: "CADA DÍA", name: "Operar", items: ["Tu sistema alojado y cuidado por nosotros", "Copias de seguridad diarias", "Soporte de lunes a viernes", "Si algo grave falla, respondemos en 40 minutos"] },
+  { num: "04", period: "CADA MES", name: "Mejorar", items: ["Horas de mejora incluidas", "Reunión mensual para revisar cómo va el negocio", "Nuevas funciones", "Informe mensual"] },
+] as const;
+
+const MONO_SVG = "Ubuntu Mono, monospace";
+
+function GraficoDisponibilidad() {
+  return (
+    <svg viewBox="0 0 240 34" width="100%" role="img" aria-label="30 días del mes, todos en operación salvo una franja mínima" style={{ display: "block" }}>
+      <g fill="#B87333">
+        {Array.from({ length: 29 }, (_, i) => (
+          <rect key={i} x={i * 8} y="0" width="6" height="22" rx="1" />
+        ))}
+      </g>
+      <rect x="232" y="0" width="6" height="22" rx="1" fill="#FAF8F4" fillOpacity="0.18" />
+      <text x="0" y="33" fontFamily={MONO_SVG} fontSize="9" fill="#A9ABB1">DÍA 1</text>
+      <text x="238" y="33" textAnchor="end" fontFamily={MONO_SVG} fontSize="9" fill="#A9ABB1">DÍA 30</text>
+    </svg>
+  );
+}
+
+function GraficoRespuesta() {
+  return (
+    <svg viewBox="0 0 240 48" width="100%" role="img" aria-label="Línea de tiempo: falla en la hora 0, respuesta antes de 40 minutos" style={{ display: "block" }}>
+      <line x1="6" y1="14" x2="234" y2="14" stroke="#B87333" strokeWidth="4" strokeLinecap="round" />
+      <g stroke="#FAF8F4" strokeOpacity="0.4">
+        <line x1="63" y1="10" x2="63" y2="18" />
+        <line x1="120" y1="10" x2="120" y2="18" />
+        <line x1="177" y1="10" x2="177" y2="18" />
+      </g>
+      <circle cx="6" cy="14" r="6" fill="#0B0C10" stroke="#B87333" strokeWidth="3" />
+      <circle cx="234" cy="14" r="6" fill="#B87333" />
+      <text x="0" y="40" fontFamily={MONO_SVG} fontSize="9" fill="#A9ABB1">FALLA</text>
+      <text x="240" y="40" textAnchor="end" fontFamily={MONO_SVG} fontSize="9" fill="#FAF8F4">RESPUESTA · 40 MIN</text>
+    </svg>
+  );
+}
+
+function GraficoDatos() {
+  return (
+    <svg viewBox="0 0 240 48" width="100%" role="img" aria-label="Línea de tiempo de respaldos, solo los últimos 15 minutos antes del fallo quedan sin respaldo" style={{ display: "block" }}>
+      <g fill="#B87333">
+        {Array.from({ length: 12 }, (_, i) => (
+          <circle key={i} cx={6 + i * 16} cy="14" r="3" />
+        ))}
+      </g>
+      <rect x="190" y="7" width="38" height="14" rx="3" fill="none" stroke="#FAF8F4" strokeOpacity="0.6" strokeDasharray="3 3" />
+      <path d="M234 6 L234 22 M229 11 L239 17 M239 11 L229 17" stroke="#FAF8F4" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+      <text x="0" y="40" fontFamily={MONO_SVG} fontSize="9" fill="#A9ABB1">RESPALDADO</text>
+      <text x="240" y="40" textAnchor="end" fontFamily={MONO_SVG} fontSize="9" fill="#FAF8F4">MÁX. 15 MIN</text>
+    </svg>
+  );
+}
+
+function GraficoLibertad() {
+  return (
+    <svg viewBox="0 0 240 48" width="100%" role="img" aria-label="Meses consecutivos con salida libre en cualquier punto" style={{ display: "block" }}>
+      <g fill="none" stroke="#B87333" strokeWidth="2">
+        {[2, 40, 78, 116].map((x) => <rect key={x} x={x} y="3" width="30" height="22" rx="3" />)}
+      </g>
+      <g stroke="#B87333" strokeWidth="2">
+        <line x1="32" y1="14" x2="40" y2="14" />
+        <line x1="70" y1="14" x2="78" y2="14" />
+        <line x1="108" y1="14" x2="116" y2="14" />
+      </g>
+      <path d="M146 14 H214 M206 7 L214 14 L206 21" stroke="#FAF8F4" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 5" />
+      <rect x="220" y="3" width="18" height="22" rx="2" fill="none" stroke="#FAF8F4" strokeWidth="2" />
+      <circle cx="233" cy="14" r="1.6" fill="#FAF8F4" />
+      <text x="0" y="40" fontFamily={MONO_SVG} fontSize="9" fill="#A9ABB1">MES A MES</text>
+      <text x="240" y="40" textAnchor="end" fontFamily={MONO_SVG} fontSize="9" fill="#FAF8F4">SALES CUANDO QUIERAS</text>
+    </svg>
+  );
+}
+
+const GARANTIAS = [
+  { tag: "01 · DISPONIBILIDAD", value: "99,5%", text: "Tu sistema funcionando el 99,5% del mes", chart: <GraficoDisponibilidad /> },
+  { tag: "02 · RESPUESTA", value: "40 min", text: "Si algo grave falla, te respondemos en un máximo de 40 minutos", chart: <GraficoRespuesta /> },
+  { tag: "03 · TUS DATOS", value: "15 min", text: "Si pasa lo peor, como máximo se pierden 15 minutos de información", chart: <GraficoDatos /> },
+  { tag: "04 · LIBERTAD", value: "0", text: "Sin permanencia: te quedas porque funciona, no por contrato", chart: <GraficoLibertad /> },
+];
+
+const DIFERENCIAS = [
+  "No te entregamos herramientas, te entregamos resultados.",
+  "Vamos a tu negocio y miramos cómo trabajas.",
+  "Los mismos que te escuchan son los que construyen.",
+];
+
+const SECTORES = [
+  { sector: "RESTAURANTES", q: "¿Tienes un restaurante?", desc: "Pedidos por la web y WhatsApp, domicilios con ruta y estados, y caja que cuadra al cierre del día." },
+  { sector: "INMOBILIARIAS", q: "¿Tienes una inmobiliaria?", desc: "Pagos conciliados con el banco, liquidación a propietarios y contratos con alertas de vencimiento." },
+  { sector: "SALUD", q: "¿Tienes una clínica o consultorio?", desc: "Agenda con solicitudes en línea, historia clínica digital e inventario con control de lotes." },
+  { sector: "MODA", q: "¿Tienes una tienda de moda?", desc: "Tienda en línea, inventario y clientes que vuelven." },
+  { sector: "BELLEZA Y BIENESTAR", q: "¿Tienes una barbería, spa o gimnasio?", desc: "Agenda por paquetes o membresías, recordatorios por WhatsApp y cobros al día." },
+] as const;
+
+const FORMAS = [
+  { num: "FORMA 01", name: "Proyecto cerrado", ideal: "Ideal si ya sabes qué necesitas.", items: ["Alcance y fecha cerrados por escrito", "Entregas por partes", "Cierre con acta de recibo"], pago: "PAGO · POR HITOS" },
+  { num: "FORMA 02", name: "Bolsa de horas", ideal: "Ideal si el alcance puede cambiar sobre la marcha.", items: ["Un bloque de horas para construir o ajustar", "Reporte de en qué se usó cada hora"], pago: "PAGO · BLOQUE PREPAGADO" },
+  { num: "FORMA 03", name: "Administración mensual", ideal: "Ideal si quieres que alguien sostenga tu sistema en el tiempo.", items: ["Nube y copias de seguridad", "Soporte de lunes a viernes", "Horas de mejora e informe mensual"], pago: "PAGO · MENSUALIDAD, SIN PERMANENCIA" },
+] as const;
+
+const PREGUNTAS = [
+  { q: "¿Qué pasa cuando el sistema ya está listo?", a: "Seguimos contigo. Con la administración mensual alojamos y cuidamos tu sistema, hacemos copias de seguridad cada día, te damos soporte de lunes a viernes y cada mes nos reunimos para mejorarlo. Sin permanencia: te quedas porque funciona.", destacada: true },
+  { q: "¿Cuánto cuesta?", destacada: false, a: "Depende del alcance. Después de la primera reunión te damos alcance y precio cerrados, por escrito." },
+  { q: "¿Cuánto tarda?", destacada: false, a: "La primera semana la usamos para entender tu negocio. Entre la semana 2 y la 5 construimos, con avances visibles cada semana. El plazo exacto depende del alcance." },
+  { q: "¿Y si algo falla?", destacada: false, a: "Hacemos copias de seguridad diarias y damos soporte de lunes a viernes. Ante una falla crítica respondemos en un máximo de 40 minutos." },
+  { q: "¿Necesito saber de tecnología?", a: "No. Te mostramos un prototipo antes de construir y lo probamos contigo antes de lanzarlo.", destacada: false },
+] as const;
+
+const EQUIPO = [
+  {
+    name: "Felipe Tangarife",
+    role: "COFUNDADOR · PRODUCTO Y EXPERIENCIA",
+    photo: felipePhoto,
+    bio: "Se sienta contigo a entender cómo trabaja tu negocio y lo convierte en pantallas claras y fáciles de usar, para que tu equipo adopte el sistema desde el primer día.",
+    whatsapp: "https://wa.me/573173780801",
+    linkedin: "https://www.linkedin.com/in/felipetangarife7/",
+  },
+  {
+    name: "Juan Pablo Hurtado",
+    role: "COFUNDADOR · ARQUITECTURA Y SEGURIDAD",
+    photo: juanPabloPhoto,
+    bio: "Se encarga de que tu sistema no se caiga, de que tus datos estén respaldados y protegidos, y de que todo siga funcionando a medida que tu negocio crece.",
+    whatsapp: "https://wa.me/573113627287",
+    linkedin: "https://www.linkedin.com/in/juanpablohz/",
+  },
+];
+
 export default function TallerPage() {
   return (
-    <div style={{ position: "relative", fontFamily: "'Gabarito', sans-serif", color: "#0B0C10", background: "#FAF8F4" }}>
+    <div className="taller-page" style={{ position: "relative", fontFamily: "'Gabarito', sans-serif", color: "#0B0C10", background: "#FAF8F4" }}>
       <TallerContactModal />
       <RobotsGreeting />
       <ScrollToTop />
 
       {/* ─────────────────────── NAVEGACIÓN ──────────────────── */}
       <header style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 5 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16, paddingTop: 18, paddingBottom: 18 }}>
+        <div style={{ ...container, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16, paddingTop: 18, paddingBottom: 18 }}>
           <Link href="/" aria-label="TwoFFactor, volver al inicio" style={{ display: "block" }}>
             <TallerLogo />
           </Link>
-          <nav aria-label="Taller" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 24px", fontSize: 16 }}>
+          <nav aria-label="Taller" className="taller-nav" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 24px", fontSize: 16 }}>
             <a href="#pilares" className="taller-nav-link" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Cómo trabajamos</a>
             <a href="#para-quien" className="taller-nav-link" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Para quién</a>
             <a href="#nosotros" className="taller-nav-link" style={{ color: "#FAF8F4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Quiénes somos</a>
-            <TallerHablemosBtn />
+            <TallerHablemosBtn className="taller-nav-cta" />
+            <TallerMobileMenu />
           </nav>
         </div>
       </header>
@@ -119,16 +275,24 @@ export default function TallerPage() {
       <section style={{ position: "relative", overflow: "hidden", background: "#0B0C10" }}>
         <Grano />
         <div style={{ position: "relative" }}>
-          <div id="inicio" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", paddingTop: 150, paddingBottom: 90, display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: 40 }}>
+          <div id="inicio" style={{ ...container, paddingTop: 150, paddingBottom: 90, display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: 40 }}>
             <div style={{ flex: "999 1 560px", minWidth: 0, display: "flex", flexDirection: "column", gap: 22 }}>
-              <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, letterSpacing: 1.5, color: "#A9ABB1" }}>SOFTWARE A LA MEDIDA · HECHO EN COLOMBIA</div>
-              <h1 style={{ margin: 0, fontFamily: "'Ubuntu Mono', monospace", fontWeight: 400, fontSize: "clamp(40px, 6vw, 76px)", lineHeight: 1.02, letterSpacing: -1, color: "#FAF8F4" }}>
-                Tu negocio no puede detenerse.<br />Tu software tampoco_
+              <div style={eyebrowDark}>SOFTWARE A LA MEDIDA · HECHO EN COLOMBIA</div>
+              <h1 style={{ margin: 0, fontFamily: MONO, fontWeight: 400, fontSize: "clamp(34px, 4.2vw, 54px)", lineHeight: 1.05, letterSpacing: -1, color: "#FAF8F4" }}>
+                Software a la medida<br />para tu negocio.<br />Funcionando en semanas_
               </h1>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 20px", marginTop: 8 }}>
-                <a href="https://calendly.com/admin-twoffactor" target="_blank" rel="noopener noreferrer" style={{ background: "#8C5524", color: "#FFFFFF", textDecoration: "none", fontWeight: 600, fontSize: 16, padding: "0 22px", minHeight: 48, borderRadius: 8, display: "inline-flex", alignItems: "center" }}>Agenda tu Discovery</a>
-                <a href="https://wa.me/573113627287" target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#FAF8F4", border: "2px solid #FAF8F4", textDecoration: "none", fontFamily: "inherit", fontWeight: 600, fontSize: 16, padding: "0 22px", minHeight: 48, borderRadius: 8, display: "inline-flex", alignItems: "center" }}>Escríbenos por WhatsApp</a>
+              <p style={{ margin: 0, fontSize: 20, lineHeight: 1.5, color: "#D7D8DC", maxWidth: 640 }}>
+                Convertimos la forma en que ya trabaja tu negocio (pedidos, citas, inventario, caja) en un sistema propio, lo ponemos a funcionar en semanas y nos quedamos cuidándolo cada mes.
+              </p>
+              <div style={{ fontFamily: MONO, fontSize: 18, color: "#B87333" }}>Tu negocio no puede detenerse. Tu software tampoco_</div>
+              <div style={{ borderLeft: "3px solid #B87333", padding: "2px 0 2px 16px", fontSize: 18, lineHeight: 1.45, fontWeight: 500, color: "#FAF8F4", maxWidth: 600 }}>
+                Dos ingenieros que se sientan contigo, construyen tu sistema y siguen a tu lado cuando ya está funcionando.
               </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 20px", marginTop: 8 }}>
+                <AgendaBtn />
+                <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" style={{ background: "transparent", color: "#FAF8F4", border: "2px solid #FAF8F4", textDecoration: "none", fontWeight: 600, fontSize: 16, padding: "0 22px", minHeight: 48, boxSizing: "border-box", borderRadius: 8, display: "inline-flex", alignItems: "center" }}>Escríbenos por WhatsApp</a>
+              </div>
+              <div style={{ fontSize: 15, color: "#A9ABB1" }}>Sin permanencia · Alcance y precio cerrados · Soporte de lunes a viernes</div>
             </div>
             <div style={{ flex: "1 1 280px", maxWidth: 360, margin: "0 auto" }}>
               <RobotsMascot />
@@ -137,138 +301,174 @@ export default function TallerPage() {
         </div>
       </section>
 
-      {/* ─────────────────── QUÉ HACEMOS ─────────────────────── */}
-      <section style={{ position: "relative", overflow: "hidden", background: "#FAF8F4", padding: "88px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 18 }}>
-          <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, letterSpacing: 1.5, color: "#5B6670" }}>QUÉ HACEMOS</div>
-          <p style={{ margin: 0, fontWeight: 400, fontSize: "clamp(26px, 3.4vw, 42px)", lineHeight: 1.28, letterSpacing: -0.5, color: "#0B0C10", maxWidth: 1050 }}>
-            Convertimos la forma en que ya trabaja tu negocio en un sistema propio, lo ponemos en producción en semanas y{" "}
-            <span style={{ background: "linear-gradient(#B87333,#B87333) no-repeat 0 100% / 100% 3px", paddingBottom: 2, color: "#8C5524" }}>nos quedamos cuidándolo</span>
-            {" "}cada mes.
-          </p>
-        </div>
-      </section>
-
       {/* ─────────────────── CÓMO TRABAJAMOS ────────────────── */}
       <section style={{ position: "relative", overflow: "hidden", background: "#0B0C10" }}>
         <Grano />
         <div style={{ position: "relative" }}>
-          <div id="pilares" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", paddingTop: 80, paddingBottom: 72, display: "flex", flexDirection: "column", gap: 28 }}>
+          <div id="pilares" style={{ ...container, paddingTop: 80, paddingBottom: 72, display: "flex", flexDirection: "column", gap: 28 }}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16 }}>
-              <h2 style={{ margin: 0, fontWeight: 700, fontSize: "clamp(26px, 3.2vw, 36px)", lineHeight: 1.15, letterSpacing: -0.5, color: "#FAF8F4" }}>Cuatro pilares, un mismo equipo</h2>
-              <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, letterSpacing: 1.5, color: "#A9ABB1" }}>CÓMO TRABAJAMOS</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={eyebrowDark}>CÓMO TRABAJAMOS</div>
+                <h2 style={{ ...h2Light, color: "#FAF8F4" }}>No te entregamos y desaparecemos</h2>
+                <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#D7D8DC", maxWidth: 680 }}>Cuatro pasos con el mismo equipo: te acompañamos antes, durante y después de lanzar tu sistema.</p>
+              </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", borderTop: "1px solid rgba(250,248,244,0.16)", borderLeft: "1px solid rgba(250,248,244,0.16)" }}>
-              {([
-                { num: "01", period: "SEMANA 1", name: "Entender", items: ["Sesiones de descubrimiento", "Mapa de tu operación", "Prototipo navegable", "Alcance y precio cerrados"] },
-                { num: "02", period: "SEMANAS 2 A 5", name: "Construir", items: ["Módulos por entregas", "Avances visibles cada semana", "Pruebas con tu equipo", "Marcha blanca con datos reales"] },
-                { num: "03", period: "CADA DÍA", name: "Operar", items: ["Nube administrada", "Copias de seguridad diarias", "Soporte de lunes a viernes", "Respuesta a fallas en 4 h"] },
-                { num: "04", period: "CADA MES", name: "Mejorar", items: ["Horas de mejora incluidas", "Reunión de métricas", "Nuevas funciones", "Informe mensual"] },
-              ] as const).map((p) => (
-                <div key={p.num} style={{ borderRight: "1px solid rgba(250,248,244,0.16)", borderBottom: "1px solid rgba(250,248,244,0.16)", padding: "26px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
-                  <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#A9ABB1" }}>{p.num} · {p.period}</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", borderTop: LINE_DARK, borderLeft: LINE_DARK }}>
+              {PASOS.map((p) => (
+                <div key={p.num} style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
+                  <div style={{ ...eyebrowDark, fontSize: 12 }}>{p.num} · {p.period}</div>
                   <h3 style={{ margin: 0, fontWeight: 700, fontSize: 28, color: "#FAF8F4" }}>{p.name}</h3>
-                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8, fontSize: 16, color: "#D7D8DC" }}>
+                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8, fontSize: 16, lineHeight: 1.4, color: "#D7D8DC" }}>
                     {p.items.map((item) => <li key={item}>{item}</li>)}
                   </ul>
                 </div>
               ))}
             </div>
-            <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 14, color: "#00FF41" }}>{">"} cada paso se aprueba contigo antes de seguir_</div>
+            <div style={{ fontFamily: MONO, fontSize: 16, color: "#B87333" }}>{">"} cada paso se aprueba contigo antes de seguir_</div>
           </div>
         </div>
       </section>
 
       {/* ───────────────────── GARANTÍAS ─────────────────────── */}
-      <section id="garantias" style={{ background: "#FAF8F4", padding: "80px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 28 }}>
-          <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, letterSpacing: 1.5, color: "#5B6670" }}>GARANTÍAS</div>
-          <h2 style={{ margin: 0, fontWeight: 700, fontSize: "clamp(26px, 3.2vw, 36px)", lineHeight: 1.15, letterSpacing: -0.5, color: "#0B0C10" }}>No pedimos que nos creas. Lo dejamos por escrito.</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", borderTop: "1px solid #0B0C10" }}>
-            {([
-              { value: "99,5%", label: "Disponibilidad mensual" },
-              { value: "4 h", label: "Respuesta ante una falla crítica" },
-              { value: "15 min", label: "Máximo de datos que se podrían perder" },
-              { value: "0", label: "Meses de permanencia" },
-            ] as const).map((g) => (
-              <div key={g.value} style={{ padding: "22px 20px 4px 0", borderRight: "1px solid #D5D2CC" }}>
-                <div style={{ fontWeight: 700, fontSize: 52, lineHeight: 1, color: "#8C5524" }}>{g.value}</div>
-                <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, letterSpacing: 1, color: "#5B6670", marginTop: 10, textTransform: "uppercase" }}>{g.label}</div>
+      <section id="garantias" style={{ background: "#FAF8F4", padding: "64px 0" }}>
+        <div style={{ ...container, display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 760 }}>
+              <div style={eyebrowLight}>GARANTÍAS</div>
+              <h2 style={{ margin: 0, fontWeight: 700, fontSize: "clamp(28px, 3.4vw, 40px)", lineHeight: 1.08, letterSpacing: -1, color: "#0B0C10" }}>
+                No pedimos que nos creas.<br />Lo dejamos{" "}
+                <span style={{ background: "linear-gradient(#B87333,#B87333) no-repeat 0 100% / 100% 4px", paddingBottom: 2, color: "#8C5524" }}>por escrito</span>.
+              </h2>
+              <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#5B6670" }}>Cuatro compromisos que se pueden medir. Van en el contrato, no en el folleto.</p>
+            </div>
+          </div>
+
+          <div style={{ background: "#0B0C10", borderRadius: 6, overflow: "hidden", position: "relative" }}>
+            <Grano />
+            <div style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+              {GARANTIAS.map((g) => (
+                <div key={g.tag} style={{ padding: "22px 20px 20px", borderRight: LINE_DARK, borderBottom: LINE_DARK, display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div style={{ ...eyebrowDark, fontSize: 12 }}>{g.tag}</div>
+                  <div style={{ fontWeight: 700, fontSize: 56, lineHeight: 0.95, letterSpacing: -1.5, color: "#B87333" }}>{g.value}</div>
+                  <div style={{ fontSize: 16, lineHeight: 1.35, fontWeight: 500, color: "#FAF8F4" }}>{g.text}</div>
+                  <div style={{ marginTop: "auto", paddingTop: 6 }}>{g.chart}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────── LO QUE NOS HACE DISTINTOS ───────── */}
+      <section style={{ background: "#F3EEE4" }}>
+        <div style={{ ...container, paddingTop: 88, paddingBottom: 88, display: "flex", flexDirection: "column", gap: 36 }}>
+          <div style={eyebrowLight}>LO QUE NOS HACE DISTINTOS</div>
+          <p style={{ margin: 0, fontFamily: MONO, fontWeight: 400, fontSize: "clamp(28px, 4.2vw, 54px)", lineHeight: 1.12, letterSpacing: -1, color: "#0B0C10", maxWidth: 1000 }}>
+            Cualquiera puede escribir código. Pocos se sientan contigo a entender cómo trabaja tu negocio. <span style={{ color: "#8C5524" }}>Nosotros sí_</span>
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", borderTop: LINE_LIGHT, borderLeft: LINE_LIGHT }}>
+            {DIFERENCIAS.map((d, i) => (
+              <div key={d} style={{ borderRight: LINE_LIGHT, borderBottom: LINE_LIGHT, padding: 24, display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ fontFamily: MONO, fontSize: 12, letterSpacing: 1.5, color: "#8C5524" }}>{String(i + 1).padStart(2, "0")}</div>
+                <div style={{ fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: "#0B0C10" }}>{d}</div>
               </div>
             ))}
+          </div>
+          <div>
+            <AgendaBtn />
           </div>
         </div>
       </section>
 
       {/* ─────────────────── PARA QUIÉN ──────────────────────── */}
-      <section id="para-quien" style={{ background: "#FAF8F4", padding: "0 0 88px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 28 }}>
-          <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, letterSpacing: 1.5, color: "#5B6670" }}>PARA QUIÉN</div>
-          <h2 style={{ margin: 0, fontWeight: 700, fontSize: "clamp(26px, 3.2vw, 36px)", lineHeight: 1.15, letterSpacing: -0.5, color: "#0B0C10" }}>Negocios que no pueden detenerse</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
-            {([
-              { sector: "RESTAURANTES", q: "¿Tienes un restaurante?", desc: "Pedidos, domicilios y caja sin perder ventas." },
-              { sector: "INMOBILIARIAS", q: "¿Tienes una inmobiliaria?", desc: "Inventario, visitas y cierres en un solo lugar." },
-              { sector: "SALUD", q: "¿Tienes una clínica o consultorio?", desc: "Citas, historiales y facturación sin papeles." },
-              { sector: "MODA", q: "¿Tienes una tienda de moda?", desc: "Tienda en línea, inventario y clientes que vuelven." },
-              { sector: "EDUCACIÓN", q: "¿Tienes una academia o instituto?", desc: "Matrículas, pagos y asistencia sin hojas de cálculo." },
-              { sector: "BELLEZA Y BIENESTAR", q: "¿Tienes una barbería, spa o gimnasio?", desc: "Citas, membresías y clientes que regresan." },
-            ] as const).map((c) => (
-              <div key={c.sector} style={{ background: "#F3EEE4", borderRadius: 4, padding: "26px 24px", minHeight: 240, display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#5B6670" }}>{c.sector}</div>
+      <section id="para-quien" style={{ background: "#FAF8F4", padding: "80px 0" }}>
+        <div style={{ ...container, display: "flex", flexDirection: "column", gap: 28 }}>
+          <div style={eyebrowLight}>PARA QUIÉN</div>
+          <h2 style={h2Light}>Negocios que no pueden detenerse</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 12 }}>
+            {SECTORES.map((c) => (
+              <div key={c.sector} style={lightCard}>
+                <div style={{ ...eyebrowLight, fontSize: 12 }}>{c.sector}</div>
                 <h3 style={{ margin: 0, fontWeight: 700, fontSize: 26, lineHeight: 1.15 }}>{c.q}</h3>
                 <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#5B6670" }}>{c.desc}</p>
-                <a href="https://calendly.com/admin-twoffactor" target="_blank" rel="noopener noreferrer" style={{ marginTop: "auto", fontFamily: "'Ubuntu Mono', monospace", fontSize: 14, color: "#8C5524", minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>&gt; así lo resolvemos_</a>
               </div>
             ))}
-            <div style={{ background: "#0B0C10", border: "1px solid #B87333", borderRadius: 4, padding: "26px 24px", minHeight: 240, display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#B87333" }}>TU SECTOR</div>
+            <div style={{ ...lightCard, background: "#0B0C10" }}>
+              <div style={{ ...eyebrowDark, fontSize: 12 }}>TU SECTOR</div>
               <h3 style={{ margin: 0, fontWeight: 700, fontSize: 26, lineHeight: 1.15, color: "#FAF8F4" }}>¿No está tu sector aquí?</h3>
-              <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#A9ABB1" }}>Si tu negocio no puede parar, podemos construir la solución. Cuéntanos.</p>
+              <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#D7D8DC" }}>Pedidos, citas, inventario, caja, reportes o páginas web: si tu negocio lo necesita y no puede parar, lo construimos. Cuéntanos.</p>
               <TallerHablemosBtn style={{ marginTop: "auto", alignSelf: "flex-start", fontSize: 14, minHeight: 44, padding: "0 18px" }} />
             </div>
           </div>
         </div>
       </section>
 
+      {/* ─────────────────── CÓMO CONTRATAR ──────────────────── */}
+      <section id="contratar" style={{ background: "#FAF8F4", padding: "0 0 80px" }}>
+        <div style={{ ...container, display: "flex", flexDirection: "column", gap: 28 }}>
+          <div style={eyebrowLight}>CÓMO CONTRATAR</div>
+          <h2 style={h2Light}>Tú eliges cómo trabajamos</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 12 }}>
+            {FORMAS.map((f) => (
+              <div key={f.num} style={lightCard}>
+                <div style={{ ...eyebrowLight, fontSize: 12 }}>{f.num}</div>
+                <h3 style={{ margin: 0, fontWeight: 700, fontSize: 26, lineHeight: 1.15 }}>{f.name}</h3>
+                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#5B6670" }}>{f.ideal}</p>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8, fontSize: 16, lineHeight: 1.4, color: "#0B0C10" }}>
+                  {f.items.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+                <div style={{ marginTop: "auto", fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#8C5524" }}>{f.pago}</div>
+              </div>
+            ))}
+          </div>
+          <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#5B6670", maxWidth: 820 }}>
+            Cualquier forma se puede combinar con la administración mensual, para que nunca te quedes solo con tu sistema. Después de la primera reunión te damos alcance y precio por escrito.
+          </p>
+        </div>
+      </section>
+
       {/* ─────────────────── QUIÉNES SOMOS ───────────────────── */}
       <section id="nosotros" style={{ background: "#F3EEE4", padding: "88px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", display: "flex", flexWrap: "wrap", alignItems: "flex-start", gap: 40 }}>
+        <div style={{ ...container, display: "flex", flexWrap: "wrap", alignItems: "flex-start", gap: 40 }}>
           <div style={{ flex: "1 1 340px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, letterSpacing: 1.5, color: "#5B6670" }}>QUIÉNES SOMOS</div>
-            <h2 style={{ margin: 0, fontWeight: 700, fontSize: "clamp(26px, 3.2vw, 36px)", lineHeight: 1.15, letterSpacing: -0.5, color: "#0B0C10" }}>Dos mentes, un mismo factor</h2>
-            <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "#5B6670" }}>Cada F de TwoFFactor es uno de nosotros. Somos los que te atienden en la primera reunión, los que construyen tu sistema y los que contestan cuando algo pasa.</p>
-            <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 14, color: "#436C84" }}>&gt; sin intermediarios_</div>
+            <div style={eyebrowLight}>QUIÉNES SOMOS</div>
+            <h2 style={h2Light}>Ingenieros que se sientan contigo</h2>
+            <p style={{ margin: 0, fontSize: 19, lineHeight: 1.5, fontWeight: 500, color: "#0B0C10" }}>Somos dos ingenieros colombianos que diseñan, construyen y cuidan tu sistema.</p>
+            <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "#5B6670" }}>Los que te atienden en la primera reunión son los mismos que construyen tu sistema y los que contestan cuando algo pasa. No hay vendedores de por medio.</p>
           </div>
           <div style={{ flex: "999 1 560px", minWidth: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(286px, 100%), 1fr))", justifyContent: "center", gap: 20, alignSelf: "center" }}>
-            <figure style={{ margin: 0, display: "flex", flexDirection: "column", gap: 14, background: "#FFFFFF", border: "1px solid #E2DED6", borderRadius: 12, padding: 14 }}>
-              <div style={{ position: "relative", width: 256, maxWidth: "100%", aspectRatio: "4/5", borderRadius: 8, overflow: "hidden" }}>
-                <Image src={felipePhoto} alt="Felipe Tangarife, cofundador de TwoFFactor" fill sizes="256px" style={{ objectFit: "cover" }} placeholder="blur" />
+            {EQUIPO.map((m) => (
+              <figure key={m.name} style={{ margin: 0, display: "flex", flexDirection: "column", gap: 14, background: "#FFFFFF", border: "1px solid #E2DED6", borderRadius: 12, padding: 14 }}>
+                <div style={{ position: "relative", width: "100%", aspectRatio: "1/1", borderRadius: 8, overflow: "hidden", background: "#E2DED6" }}>
+                  <Image src={m.photo} alt={`${m.name}, cofundador de TwoFFactor`} fill sizes="(max-width: 640px) 90vw, 400px" style={{ objectFit: "cover", objectPosition: "center top" }} placeholder="blur" />
+                </div>
+                <figcaption style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <span style={{ fontWeight: 700, fontSize: 24, lineHeight: 1.15, color: "#0B0C10" }}>{m.name}</span>
+                  <span style={{ fontFamily: MONO, fontSize: 13, letterSpacing: 1, color: "#5B6670" }}>{m.role}</span>
+                  <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: "#5B6670" }}>{m.bio}</p>
+                  <span style={{ display: "flex", flexWrap: "wrap", gap: "4px 20px" }}>
+                    <a href={m.whatsapp} target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, color: "#8C5524", fontSize: 14, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>WhatsApp</a>
+                    <a href={m.linkedin} target="_blank" rel="noopener noreferrer" style={{ fontFamily: MONO, color: "#8C5524", fontSize: 14, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>LinkedIn</a>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────── PREGUNTAS FRECUENTES ────────────── */}
+      <section id="preguntas" style={{ background: "#FAF8F4", padding: "80px 0" }}>
+        <div style={{ ...container, display: "flex", flexDirection: "column", gap: 28 }}>
+          <div style={eyebrowLight}>PREGUNTAS FRECUENTES</div>
+          <h2 style={h2Light}>Lo que nos suelen preguntar</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))", gap: 12 }}>
+            {PREGUNTAS.map((p) => (
+              <div key={p.q} style={{ ...lightCard, padding: 24, gap: 10, ...(p.destacada ? { gridColumn: "1 / -1", background: "#0B0C10" } : {}) }}>
+                <h3 style={{ margin: 0, fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: p.destacada ? "#FAF8F4" : "#0B0C10" }}>{p.q}</h3>
+                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: p.destacada ? "#D7D8DC" : "#5B6670", maxWidth: 860 }}>{p.a}</p>
               </div>
-              <figcaption style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <span style={{ fontWeight: 700, fontSize: 19, color: "#0B0C10" }}>Felipe Tangarife</span>
-                <span style={{ fontSize: 15, color: "#5B6670" }}>CEO · COO</span>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: "#5B6670" }}>Como director de Producto y Experiencia, lidera en TwoFFactor el frontend y la estrategia visual. Transforma procesos de negocio complejos en interfaces intuitivas, garantizando que tu equipo adopte la tecnología sin fricciones.</p>
-                <span style={{ display: "flex", flexWrap: "wrap", gap: "4px 16px", marginTop: 2 }}>
-                  <a href="https://wa.me/573173780801" target="_blank" rel="noopener noreferrer" style={{ color: "#8C5524", fontSize: 15, fontWeight: 600, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>WhatsApp</a>
-                  <a href="https://www.linkedin.com/in/felipetangarife7/" target="_blank" rel="noopener noreferrer" style={{ color: "#8C5524", fontSize: 15, fontWeight: 600, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>LinkedIn</a>
-                </span>
-              </figcaption>
-            </figure>
-            <figure style={{ margin: 0, display: "flex", flexDirection: "column", gap: 14, background: "#FFFFFF", border: "1px solid #E2DED6", borderRadius: 12, padding: 14 }}>
-              <div style={{ position: "relative", width: 256, maxWidth: "100%", aspectRatio: "4/5", borderRadius: 8, overflow: "hidden" }}>
-                <Image src={juanPabloPhoto} alt="Juan Pablo Hurtado, cofundador de TwoFFactor" fill sizes="256px" style={{ objectFit: "cover" }} placeholder="blur" />
-              </div>
-              <figcaption style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <span style={{ fontWeight: 700, fontSize: 19, color: "#0B0C10" }}>Juan Pablo Hurtado</span>
-                <span style={{ fontSize: 15, color: "#5B6670" }}>CEO · CTO</span>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: "#5B6670" }}>Como director de Arquitectura y Seguridad, lidera en TwoFFactor el backend y la infraestructura en la nube. Diseña los cimientos, bases de datos y protocolos de seguridad que hacen que tu plataforma sea resiliente y escalable.</p>
-                <span style={{ display: "flex", flexWrap: "wrap", gap: "4px 16px", marginTop: 2 }}>
-                  <a href="https://wa.me/573113627287" target="_blank" rel="noopener noreferrer" style={{ color: "#8C5524", fontSize: 15, fontWeight: 600, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>WhatsApp</a>
-                  <a href="https://www.linkedin.com/in/juanpablohz/" target="_blank" rel="noopener noreferrer" style={{ color: "#8C5524", fontSize: 15, fontWeight: 600, minHeight: 44, display: "inline-flex", alignItems: "center", textDecoration: "none" }}>LinkedIn</a>
-                </span>
-              </figcaption>
-            </figure>
+            ))}
           </div>
         </div>
       </section>
@@ -277,33 +477,38 @@ export default function TallerPage() {
       <section style={{ position: "relative", overflow: "hidden", background: "#0B0C10" }}>
         <Grano />
         <div style={{ position: "relative" }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", boxSizing: "border-box", paddingTop: 88, display: "flex", flexDirection: "column", gap: 40 }}>
+          <div style={{ ...container, paddingTop: 88, display: "flex", flexDirection: "column", gap: 40 }}>
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 24 }}>
-              <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.05, color: "#FAF8F4" }}>
-                Construyamos algo<br />que no se apague_
+              <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                <div style={{ fontFamily: MONO, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.05, color: "#FAF8F4" }}>
+                  Construyamos algo<br />que no se apague_
+                </div>
+                <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#D7D8DC", maxWidth: 560 }}>Cuéntanos cómo trabaja tu negocio hoy y te decimos qué podemos construir.</p>
               </div>
-              <TallerHablemosBtn />
+              <AgendaBtn />
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", borderTop: "1px solid rgba(250,248,244,0.16)", borderLeft: "1px solid rgba(250,248,244,0.16)" }}>
-              <div style={{ borderRight: "1px solid rgba(250,248,244,0.16)", borderBottom: "1px solid rgba(250,248,244,0.16)", padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#A9ABB1" }}>NAVEGA</div>
-                <a href="#pilares" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>Cómo trabajamos</a>
-                <a href="#para-quien" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>Para quién</a>
-                <a href="#nosotros" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>Quiénes somos</a>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", borderTop: LINE_DARK, borderLeft: LINE_DARK }}>
+              <div style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ ...eyebrowDark, fontSize: 12 }}>NAVEGA</div>
+                <a href="#pilares" style={footerLink}>Cómo trabajamos</a>
+                <a href="#para-quien" style={footerLink}>Para quién</a>
+                <a href="#contratar" style={footerLink}>Cómo contratar</a>
+                <a href="#preguntas" style={footerLink}>Preguntas frecuentes</a>
+                <a href="#nosotros" style={footerLink}>Quiénes somos</a>
               </div>
-              <div style={{ borderRight: "1px solid rgba(250,248,244,0.16)", borderBottom: "1px solid rgba(250,248,244,0.16)", padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#A9ABB1" }}>CONTACTO</div>
-                <a href="https://calendly.com/admin-twoffactor" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>Agenda tu Discovery</a>
-                <a href="mailto:admin@twoffactor.com" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>admin@twoffactor.com</a>
-                <a href="https://wa.me/573113627287" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>+57 311 362 7287</a>
+              <div style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ ...eyebrowDark, fontSize: 12 }}>CONTACTO</div>
+                <a href={CALENDLY} target="_blank" rel="noopener noreferrer" style={footerLink}>Agenda una reunión</a>
+                <a href="mailto:admin@twoffactor.com" style={footerLink}>admin@twoffactor.com</a>
+                <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" style={footerLink}>+57 311 362 7287</a>
               </div>
-              <div style={{ borderRight: "1px solid rgba(250,248,244,0.16)", borderBottom: "1px solid rgba(250,248,244,0.16)", padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ fontFamily: "'Ubuntu Mono', monospace", fontSize: 12, letterSpacing: 1.5, color: "#A9ABB1" }}>SÍGUENOS</div>
-                <a href="https://www.linkedin.com/company/146698937/" target="_blank" rel="noopener noreferrer" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>LinkedIn</a>
-                <a href="https://www.instagram.com/twoffactor/" target="_blank" rel="noopener noreferrer" style={{ color: "#FAF8F4", textDecoration: "none", fontSize: 16, minHeight: 32, display: "inline-flex", alignItems: "center" }}>Instagram</a>
+              <div style={{ borderRight: LINE_DARK, borderBottom: LINE_DARK, padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ ...eyebrowDark, fontSize: 12 }}>SÍGUENOS</div>
+                <a href="https://www.linkedin.com/company/146698937/" target="_blank" rel="noopener noreferrer" style={footerLink}>LinkedIn</a>
+                <a href="https://www.instagram.com/twoffactor/" target="_blank" rel="noopener noreferrer" style={footerLink}>Instagram</a>
               </div>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, paddingBottom: 28, fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, color: "#A9ABB1" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, paddingBottom: 28, fontFamily: MONO, fontSize: 13, letterSpacing: 1.5, color: "#A9ABB1" }}>
               <span>&lt; WEB: twoffactor.com &gt; &lt; LOC: COL &gt;</span>
               <span>© {new Date().getFullYear()} TwoFFactor</span>
             </div>
@@ -313,10 +518,10 @@ export default function TallerPage() {
 
       {/* Enlace al Laboratorio */}
       <div style={{ background: "#0B0C10", borderTop: "1px solid rgba(250,248,244,0.08)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 24px", boxSizing: "border-box" }}>
+        <div style={{ ...container, paddingTop: 20, paddingBottom: 20 }}>
           <Link
             href="/laboratorio"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 8, border: "1px solid rgba(250,248,244,0.15)", padding: "10px 20px", fontFamily: "'Ubuntu Mono', monospace", fontSize: 13, fontWeight: 600, color: "#A9ABB1", textDecoration: "none" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, borderRadius: 8, border: "1px solid rgba(250,248,244,0.15)", padding: "10px 20px", fontFamily: MONO, fontSize: 13, fontWeight: 600, color: "#A9ABB1", textDecoration: "none" }}
           >
             Laboratorio
           </Link>

@@ -6,14 +6,14 @@ import { I18nProvider } from "@/i18n/I18nProvider";
 export const metadata: Metadata = {
   title: "TwoFFactor · Software a la medida",
   description:
-    "Software a la medida para negocios que no pueden detenerse. Hecho en Colombia.",
+    "Software a la medida para tu negocio, funcionando en semanas. Y nos quedamos cuidándolo cada mes. Hecho en Colombia.",
   keywords: ["TwoFFactor", "software a la medida", "Colombia", "desarrollo de software"],
   openGraph: {
     title: "TwoFFactor · Software a la medida",
-    description: "Software a la medida para negocios que no pueden detenerse.",
+    description: "Software a la medida para tu negocio, funcionando en semanas. Y nos quedamos cuidándolo cada mes.",
     type: "website",
     url: "https://twoffactor.com",
-    locale: "es_ES",
+    locale: "es_CO",
   },
   alternates: {
     canonical: "/",

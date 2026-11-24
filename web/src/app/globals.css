@@ -807,15 +807,37 @@ body {
 /*
   En pantallas ≤ 640px el nav completo (3 enlaces + botón) se rompe
   en 2+ filas, haciendo que el header absoluto supere los 150px del
-  paddingTop del hero y se superponga al texto. Ocultando los 3
-  enlaces de texto el header se mantiene en una sola fila (logo +
-  botón "Hablemos") con ~84px de alto, dejando margen suficiente.
-  Los enlaces también están en el footer para navegación.
+  paddingTop del hero y se superponga al texto. Por eso en móvil se
+  ocultan los enlaces de texto y se muestra el menú desplegable
+  (TallerMobileMenu); el logo y el botón "Hablemos" se compactan para
+  que logo + botón + menú quepan en una fila desde 360px de ancho.
 */
+.taller-mobile-only {
+  display: none;
+}
 @media (max-width: 640px) {
   .taller-nav-link {
     display: none !important;
   }
+  .taller-mobile-only {
+    display: block;
+  }
+  .taller-nav {
+    column-gap: 8px !important;
+  }
+  .taller-logo {
+    width: 140px !important;
+    height: auto !important;
+  }
+  .taller-nav-cta {
+    padding: 0 16px !important;
+  }
+}
+
+/* En la página principal la barra de progreso va en cobre, no en cian. */
+body:has(.taller-page) .scroll-progress {
+  background-image: none;
+  background-color: #B87333;
 }
 
 /* ── Modo Taller (steampunk, cobre latón) ── */

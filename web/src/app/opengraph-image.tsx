@@ -40,6 +40,10 @@ const ROBOTS_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150
 
 const robotsDataUri = `data:image/svg+xml;base64,${Buffer.from(ROBOTS_SVG).toString("base64")}`;
 
+// Vista previa al compartir (WhatsApp, LinkedIn, etc.): solo el logo de los
+// robots, centrado sobre el negro de la marca. WhatsApp a veces recorta la
+// imagen a un cuadrado centrado: el dibujo útil de los robots mide ~480 px de
+// ancho (el SVG tiene márgenes), así que se ve completo también en ese caso.
 export default function OGImage() {
   return new ImageResponse(
     (
@@ -50,46 +54,11 @@ export default function OGImage() {
           height: "100%",
           background: "#0B0C10",
           alignItems: "center",
-          padding: "60px 80px",
-          gap: 64,
+          justifyContent: "center",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 24, flex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: 12,
-                background: "#B87333",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 24,
-                fontWeight: 800,
-                color: "#0B0C10",
-                fontFamily: "monospace",
-                letterSpacing: -1,
-              }}
-            >
-              fF
-            </div>
-            <span style={{ color: "#FAF8F4", fontSize: 22, fontWeight: 600, letterSpacing: -0.5, fontFamily: "sans-serif" }}>
-              TwoFFactor
-            </span>
-          </div>
-          <div style={{ color: "#5B6670", fontSize: 13, letterSpacing: 3, textTransform: "uppercase", fontFamily: "monospace" }}>
-            SOFTWARE A LA MEDIDA · COLOMBIA
-          </div>
-          <div style={{ color: "#FAF8F4", fontSize: 54, fontWeight: 700, lineHeight: 1.05, letterSpacing: -1.5, fontFamily: "sans-serif" }}>
-            Tu negocio no puede detenerse.
-          </div>
-          <div style={{ color: "#B87333", fontSize: 22, fontFamily: "monospace", letterSpacing: 0.5 }}>
-            Tu software tampoco_
-          </div>
-        </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={robotsDataUri} width={380} height={285} alt="" style={{ flexShrink: 0 }} />
+        <img src={robotsDataUri} width={800} height={600} alt="" />
       </div>
     ),
     { width: 1200, height: 630 }

@@ -1,9 +1,10 @@
 "use client";
 
-export function TallerHablemosBtn({ style }: { style?: React.CSSProperties }) {
+export function TallerHablemosBtn({ style, className }: { style?: React.CSSProperties; className?: string }) {
   return (
     <button
       type="button"
+      className={className}
       onClick={() => window.dispatchEvent(new Event("open-contact"))}
       style={{
         background: "#8C5524",
